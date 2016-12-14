@@ -16,6 +16,7 @@ module.exports = {
   "raw.js": require('./raw.js'),
   "search.js": require('./search'),
   "split.js":  require('./split.js'),
+  "ting_skill.js": require('./ting_skill.js'),
   "versions.js":  require('./versions.js')
 }
 
