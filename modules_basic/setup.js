@@ -20,6 +20,12 @@ exports.needs = {
   sbot_query: 'first'
 }
 
+exports.gives = {
+  menu_items: true,
+  builtin_tabs: true,
+  screen_view: true
+}
+
 //maybe this could show the pubs, or
 //if someone locally follows you,
 //it could show the second degree pubs?
@@ -28,18 +34,25 @@ exports.needs = {
 
 function followers_query (id) {
   return [{$filter: {
-     value: {content: {
-       type: "contact",
-       contact: id,
-       following: true,
-//       autofollow: true
-     }}
+    value: {content: {
+      type: "contact",
+      contact: id,
+      following: true,
+    }}
   }}]
 }
 
 exports.create = function (api) {
 
   var exports = {}
+
+  exports.menu_items= function () {
+    return h('a', {href:'#/setup'}, '/setup')
+  }
+
+  exports.builtin_tabs= function () {
+    return ['/setup']
+  }
 
   //test whether we are connected to the ssb network.
   exports.setup_is_fresh_install = function (cb) {
