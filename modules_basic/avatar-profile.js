@@ -1,4 +1,5 @@
 var h = require('hyperscript')
+var obs = require('observable')
 var pull = require('pull-stream')
 var cat = require('pull-cat')
 var combobox = require('hypercombo')
@@ -13,6 +14,7 @@ exports.needs = {
   followers: 'first',
   sbot_get: 'first',
   sbot_query: 'first',
+  sbot_whoami: 'first',
   message_confirm: 'first',
   message_compose: 'first'
 }
@@ -35,58 +37,6 @@ exports.create = function (api) {
     var followers_el = h('div.profile__followers.wrap')
     var a, b
 
-    function adoptSkillForm() {
-      var adoptSelector_el;
-      var sk0rgName_el;
-      var form = h('form',
-        h('strong', 'Adopt existing:'),
-        adoptSelector_el = combobox({
-          style: {'max-width': '26ex'},
-          read: pull(
-            api.sbot_query({query:
-              [{"$filter": {"value": { "content":{ "type":"sk0rg" }}}}]
-            }),
-            // filter unadopted ones
-            pull.map(function (sk) {
-              var t = sk.value.content.text
-              if (t.length > 70) t = t.substr(0, 70) + '…'
-              return h('option', {value: sk.key},
-                sk.value.content.name + ": " + t
-              )
-            }))
-        }),
-        h('button', {onclick: function (e) {
-          e.preventDefault()
-          api.message_confirm({
-            "type": 'about', "about": id,
-            "sk0rg":adoptSelector_el.value, "adopted": true,
-          }, function (err, msg) {
-            if(err) return alert(err)
-            if(!msg) return
-          })
-        }}, "Adopt"),
-        h('br'),
-        h('strong', 'Add missing sk0rg:'),
-        sk0rgName_el=h('input', {placeholder: "sk0rg name"}),
-        api.message_compose(
-          {type: 'sk0rg' },
-          function (value) {
-            value.name = sk0rgName_el.value
-            return value
-          },
-          function (err, sk) {
-            if(err) return alert(err)
-            if(!sk) return
-            var title = sk.value.content.text
-            if(title.length > 70) title = title.substr(0, 70) + '…'
-            sk0rgs_el.appendChild(h('li',
-              h('a', {href: '#'+id}, sk.content.name),
-              ": " + sk.content.text))
-          }
-        )
-      )
-      return form
-    }
 
     // this counts skill adopted:true and :false messages to see which ones are still valid
     function countAdopts(ary) {
@@ -107,6 +57,46 @@ exports.create = function (api) {
       return cntMap
     }
 
+    //  make sure the sk0rgs are only displayed for yourself
+    var isMyself =false
+    api.sbot_whoami(function (err, feed) {
+      if (err) return console.error(err)
+      isMyself=id === feed.id
+      if (isMyself) {
+        sk0rgsAdopter( h('form',
+          h('span', 'Adopt existing:'),
+          adoptSelector_el = combobox({
+            style: {'max-width': '26ex'},
+            read: pull(
+              api.sbot_query({query:
+                [{"$filter": {"value": { "content":{ "type":"sk0rg" }}}}]
+              }),
+              // filter unadopted ones
+              pull.map(function (sk) {
+                var t = sk.value.content.text
+                if (t.length > 70) t = t.substr(0, 70) + '…'
+                return h('option', {value: sk.key},
+                  sk.value.content.name + ": " + t
+                )
+              }))
+          }),
+          h('button', {onclick: function (e) {
+            e.preventDefault()
+            api.message_confirm({
+              "type": 'about', "about": id,
+              "sk0rg":adoptSelector_el.value, "adopted": true,
+            }, function (err, msg) {
+              if(err) return alert(err)
+              if(!msg) return
+            })
+          }}, "Adopt"),
+          h('br'),
+          h('span', 'or add missing sk0rgs ',
+            h('a', {href: "#/ting-sk0rg"}, 'here'))
+        ))
+      }
+    })
+
     // fill sk0rgs list
     pull(
       api.sbot_query({query: [
@@ -125,10 +115,10 @@ exports.create = function (api) {
           if (adoptCnt[msgKey].cnt > 0) { // only add adopted themes
             var sk = aboutMsg.value.content.sk0rg
             api.sbot_get(sk, function(err, skMsg) {
-              sk0rgs_el.appendChild(h('li',
-                h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
 
-                h('a', {href: '#', onclick: function(e) {
+              var deleteLink = obs()
+              if (isMyself) {
+                deleteLink(h('a', {href: '#', onclick: function(e) {
                   e.preventDefault()
                   // copy msg and invert it
                   var untrack = aboutMsg.value.content
@@ -137,7 +127,11 @@ exports.create = function (api) {
                     if(err) return alert(err)
                     if(!msg) return
                   })
-                }}, "(☢)")
+                }}, "(☢)"))
+              }
+              sk0rgs_el.appendChild(h('li',
+                h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
+                deleteLink
               ))
             })
           }
@@ -145,14 +139,13 @@ exports.create = function (api) {
       })
     )
 
+    // followers
     pull(api.follows(id), pull.unique(), pull.collect(function (err, ary) {
       a = ary || []; next()
     }))
     pull(api.followers(id), pull.unique(), pull.collect(function (err, ary) {
       b = ary || {}; next()
     }))
-
-
 
     function next () {
       if(!(a && b)) return
@@ -174,7 +167,9 @@ exports.create = function (api) {
       add(_b, followers_el)
     }
 
-
+    // return the ui
+    var adoptSelector_el
+    var sk0rgsAdopter =obs() // observable because we have to wait for the whoami-callback...
     return h('div.column.profile',
       api.avatar_edit(id),
       api.avatar_description(id),
@@ -184,10 +179,7 @@ exports.create = function (api) {
       h('div.profile__relationships.column',
         h('strong', 'sk0rgs'),
         sk0rgs_el,
-        h('div', h('a', {href: '#', onclick: function (e) {
-          e.preventDefault()
-          this.parentNode.replaceChild(adoptSkillForm(id), this)
-        }}, 'Adopt Sk0rg…')),
+        sk0rgsAdopter,
         h('strong', 'follows'),
         follows_el,
         h('strong', 'friends'),

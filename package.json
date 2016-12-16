@@ -25,6 +25,7 @@
     "map-filter-reduce": "^3.0.1",
     "mime-types": "^2.1.11",
     "moment": "^2.13.0",
+    "observable": "^2.1.4",
     "open-external": "^0.1.1",
     "peaks.js": "^0.4.7",
     "pull-cat": "^1.1.9",
