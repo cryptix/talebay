@@ -27,15 +27,20 @@ exports.create = function (api) {
           h('div.scroller__wrapper', content)
         )
 
+        function filterFn(msg) {
+          if (typeof msg.value.content.type === 'undefined') return false
+          return msg.value.content.type.match(/^ting-inquiry/)
+        }
+
         pull(
           u.next(api.sbot_log, {old: false, limit: 100}),
-          pull.filter(function (msg) { return msg.value.content.type.match(/^inqu1ry/) }),
+          pull.filter(filterFn),
           Scroller(div, content, api.message_render, true, false)
         )
 
         pull(
           u.next(api.sbot_log, {reverse: true, limit: 100, live: false}),
-          pull.filter(function (msg) { return msg.value.content.type.match(/^inqu1ry/) }),
+          pull.filter(filterFn),
           Scroller(div, content, api.message_render, false, false)
         )
 
