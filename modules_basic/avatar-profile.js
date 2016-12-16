@@ -1,5 +1,7 @@
 var h = require('hyperscript')
 var pull = require('pull-stream')
+var cat = require('pull-cat')
+var combobox = require('hypercombo')
 
 exports.needs = {
   avatar_image_link: 'first',
@@ -10,20 +12,12 @@ exports.needs = {
   follows: 'first',
   followers: 'first',
   sbot_get: 'first',
-  sbot_query: 'first'
+  sbot_query: 'first',
+  message_confirm: 'first',
+  message_compose: 'first'
 }
 
 exports.gives = 'avatar_profile'
-
-function streamToList(stream, el) {
-  pull(
-    stream,
-    pull.drain(function (item) {
-      if(item) el.appendChild(item)
-    })
-  )
-  return el
-}
 
 exports.create = function (api) {
 
@@ -31,13 +25,123 @@ exports.create = function (api) {
     return api.avatar_image_link(id, 'thumbnail')
   }
 
+
   return function (id) {
 
-    var skorgs_el = h('ul')
+
+    var sk0rgs_el = h('ul')
     var follows_el = h('div.profile__follows.wrap')
     var friends_el = h('div.profile__friendss.wrap')
     var followers_el = h('div.profile__followers.wrap')
     var a, b
+
+    function adoptSkillForm() {
+      var adoptSelector_el;
+      var sk0rgName_el;
+      var form = h('form',
+        h('strong', 'Adopt existing:'),
+        adoptSelector_el = combobox({
+          style: {'max-width': '26ex'},
+          read: pull(
+            api.sbot_query({query:
+              [{"$filter": {"value": { "content":{ "type":"sk0rg" }}}}]
+            }),
+            // filter unadopted ones
+            pull.map(function (sk) {
+              var t = sk.value.content.text
+              if (t.length > 70) t = t.substr(0, 70) + '…'
+              return h('option', {value: sk.key},
+                sk.value.content.name + ": " + t
+              )
+            }))
+        }),
+        h('button', {onclick: function (e) {
+          e.preventDefault()
+          api.message_confirm({
+            "type": 'about', "about": id,
+            "sk0rg":adoptSelector_el.value, "adopted": true,
+          }, function (err, msg) {
+            if(err) return alert(err)
+            if(!msg) return
+          })
+        }}, "Adopt"),
+        h('br'),
+        h('strong', 'Add missing sk0rg:'),
+        sk0rgName_el=h('input', {placeholder: "sk0rg name"}),
+        api.message_compose(
+          {type: 'sk0rg' },
+          function (value) {
+            value.name = sk0rgName_el.value
+            return value
+          },
+          function (err, sk) {
+            if(err) return alert(err)
+            if(!sk) return
+            var title = sk.value.content.text
+            if(title.length > 70) title = title.substr(0, 70) + '…'
+            sk0rgs_el.appendChild(h('li',
+              h('a', {href: '#'+id}, sk.content.name),
+              ": " + sk.content.text))
+          }
+        )
+      )
+      return form
+    }
+
+    function countAdopts(ary) {
+      var cntMap  = {}
+
+      ary.forEach(function(msg) {
+        var c = msg.value.content
+        cntMap[c.sk0rg]=0
+      })
+
+      ary.forEach(function(msg) {
+        var c = msg.value.content
+        if (typeof c.adopted === "boolean") {
+          cntMap[c.sk0rg] = c.adopted ? cntMap[c.sk0rg] + 1:cntMap[c.sk0rg] - 1
+        }
+      })
+
+      return cntMap
+    }
+
+    // fill sk0rgs list
+    pull(
+      api.sbot_query({query: [
+        {"$filter": {
+          "value":{
+            "author": id,
+            "content": {"type":"about", "sk0rg":{"$prefix":""}}
+          }
+        }}
+      ]}),
+      pull.collect(function(err, ary) {
+        if(err) {throw err; return;}
+        var adoptCnt = countAdopts(ary)
+        ary.forEach(function(aboutMsg) {
+          var sk = aboutMsg.value.content.sk0rg
+          api.sbot_get(sk, function(err, skMsg) {
+            if (adoptCnt[sk] > 0) {
+              sk0rgs_el.appendChild(h('li',
+                h('a', {href: '#'+id}, skMsg.content.name), ": " + skMsg.content.text,
+
+                h('a', {href: '#', onclick: function(e) {
+                  e.preventDefault()
+                  // copy msg and invert it
+                  var untrack = aboutMsg.value.content
+                  untrack.adopted = false
+                  api.message_confirm(untrack, function (err, msg) {
+                    if(err) return alert(err)
+                    if(!msg) return
+                  })
+                }}, "X")
+              ))
+            }
+          })
+        })
+      })
+    )
 
     pull(api.follows(id), pull.unique(), pull.collect(function (err, ary) {
       a = ary || []; next()
@@ -46,28 +150,7 @@ exports.create = function (api) {
       b = ary || {}; next()
     }))
 
-    pull(
-      api.sbot_query({query: [
-        {"$filter": {
-          "value":{
-            "author": id,
-            "content": {"type":"about", "sk0rg":{"$prefix":""} }
-          }
-        }},
-        {"$map": ['value', 'content','sk0rg']}
-      ]}),
-      pull.unique(),
-      pull.collect(function(err, ary) {
-        if(err) {throw err; return;}
-        ary.forEach(function(id) {
-          api.sbot_get(id, function(err, obj) {
-            skorgs_el.appendChild(h('li', 
-              h('a', {href: '#'+id}, obj.content.sk0rg),
-              ": " + obj.content.text))
-          })
-        })
-      })
-    )
+
 
     function next () {
       if(!(a && b)) return
@@ -98,7 +181,11 @@ exports.create = function (api) {
       api.avatar_action(id),
       h('div.profile__relationships.column',
         h('strong', 'sk0rgs'),
-        skorgs_el,
+        sk0rgs_el,
+        h('div', h('a', {href: '#', onclick: function (e) {
+          e.preventDefault()
+          this.parentNode.replaceChild(adoptSkillForm(id), this)
+        }}, 'Adopt Sk0rg…')),
         h('strong', 'follows'),
         follows_el,
         h('strong', 'friends'),
