@@ -11,6 +11,7 @@ exports.needs = {
 
 exports.gives = {
   message_content: true,
+  message_action: true,
 }
 
 exports.create = function (api) {
@@ -22,10 +23,17 @@ exports.create = function (api) {
         return h('div.sk0rg',
           h('h1', c.name),
           h('p', api.markdown(c.text))
-      )
+        )
+      }
+    },
+
+    message_action: function (msg) {
+      if (msg.value.content.type === 'sk0rg') {
+        var a = h('a', {href: '#', onclick: function (e) {
+          e.preventDefault()
+        }}, "Adopt")
+        return  a
+      }
     }
   }
-  }
-
-
 }
