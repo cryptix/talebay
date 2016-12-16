@@ -88,21 +88,22 @@ exports.create = function (api) {
       return form
     }
 
+    // this counts skill adopted:true and :false messages to see which ones are still valid
     function countAdopts(ary) {
       var cntMap  = {}
-
       ary.forEach(function(msg) {
         var c = msg.value.content
-        cntMap[c.sk0rg]=0
+        cntMap[c.sk0rg]={
+          cnt:0,
+          msg: msg,
+        }
       })
-
       ary.forEach(function(msg) {
         var c = msg.value.content
         if (typeof c.adopted === "boolean") {
-          cntMap[c.sk0rg] = c.adopted ? cntMap[c.sk0rg] + 1:cntMap[c.sk0rg] - 1
+          cntMap[c.sk0rg].cnt = c.adopted ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
         }
       })
-
       return cntMap
     }
 
@@ -119,10 +120,11 @@ exports.create = function (api) {
       pull.collect(function(err, ary) {
         if(err) {throw err; return;}
         var adoptCnt = countAdopts(ary)
-        ary.forEach(function(aboutMsg) {
-          var sk = aboutMsg.value.content.sk0rg
-          api.sbot_get(sk, function(err, skMsg) {
-            if (adoptCnt[sk] > 0) {
+        Object.keys(adoptCnt).forEach(function(objkey) { // deduplicate the array
+          var aboutMsg = adoptCnt[objkey].msg
+          if (adoptCnt[objkey].cnt > 0) { // only add adopted themes
+            var sk = aboutMsg.value.content.sk0rg
+            api.sbot_get(sk, function(err, skMsg) {
               sk0rgs_el.appendChild(h('li',
                 h('a', {href: '#'+id}, skMsg.content.name), ": " + skMsg.content.text,
 
@@ -137,8 +139,8 @@ exports.create = function (api) {
                   })
                 }}, "X")
               ))
-            }
-          })
+            })
+          }
         })
       })
     )
