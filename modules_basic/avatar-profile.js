@@ -120,13 +120,13 @@ exports.create = function (api) {
       pull.collect(function(err, ary) {
         if(err) {throw err; return;}
         var adoptCnt = countAdopts(ary)
-        Object.keys(adoptCnt).forEach(function(objkey) { // deduplicate the array
-          var aboutMsg = adoptCnt[objkey].msg
-          if (adoptCnt[objkey].cnt > 0) { // only add adopted themes
+        Object.keys(adoptCnt).forEach(function(msgKey) { // deduplicate the array
+          var aboutMsg = adoptCnt[msgKey].msg
+          if (adoptCnt[msgKey].cnt > 0) { // only add adopted themes
             var sk = aboutMsg.value.content.sk0rg
             api.sbot_get(sk, function(err, skMsg) {
               sk0rgs_el.appendChild(h('li',
-                h('a', {href: '#'+id}, skMsg.content.name), ": " + skMsg.content.text,
+                h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
 
                 h('a', {href: '#', onclick: function(e) {
                   e.preventDefault()
@@ -137,7 +137,7 @@ exports.create = function (api) {
                     if(err) return alert(err)
                     if(!msg) return
                   })
-                }}, "X")
+                }}, "(☢)")
               ))
             })
           }
