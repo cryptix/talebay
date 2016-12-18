@@ -39,7 +39,7 @@ exports.create = function (api) {
 
 
     // this counts skill adopted:true and :false messages to see which ones are still valid
-    function countFields(ary,field) {
+    function countAdopted(ary) {
       var cntMap  = {}
       ary.forEach(function(msg) {
         var c = msg.value.content
@@ -50,8 +50,8 @@ exports.create = function (api) {
       })
       ary.forEach(function(msg) {
         var c = msg.value.content
-        if (typeof c[field] === "boolean") {
-          cntMap[c.sk0rg].cnt = c[field] ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
+        if (typeof c["adopted"] === "boolean") {
+          cntMap[c.sk0rg].cnt = c["adopted"] ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
         }
       })
       return cntMap
@@ -109,7 +109,7 @@ exports.create = function (api) {
       ]}),
       pull.collect(function(err, ary) {
         if(err) {throw err; return;}
-        var adoptCnt = countFields(ary,"adopted")
+        var adoptCnt = countAdopted(ary)
         Object.keys(adoptCnt).forEach(function(msgKey) { // deduplicate the array
           var aboutMsg = adoptCnt[msgKey].msg
           if (adoptCnt[msgKey].cnt > 0) { // only add adopted themes
@@ -131,6 +131,7 @@ exports.create = function (api) {
                 }}, "(☢)"))
               }
               sk0rgs_el.appendChild(h('li',
+                // TODO: don't link to individual message, link to feed with all inquiries for this skill
                 h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
                 deleteLink
               ))
