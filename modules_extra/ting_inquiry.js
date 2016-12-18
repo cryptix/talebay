@@ -18,19 +18,15 @@ exports.gives = {
   message_content: true,
 }
 
-function countFields(ary,field) {
+// similar to avatar-profile/countFields
+function groupByNameAndCount(ary) {
   var cntMap  = {}
   ary.forEach(function(msg) {
-    var c = msg.value.content
-    cntMap[c.sk0rg]={
-      cnt:0,
-      msg: msg,
-    }
+    cntMap[msg.author]=0
   })
   ary.forEach(function(msg) {
-    var c = msg.value.content
-    if (typeof c[field] === "boolean") {
-      cntMap[c.sk0rg].cnt = c[field] ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
+    if (typeof msg.adopted === "boolean") {
+      cntMap[msg.author] = msg.adopted ? cntMap[msg.author] + 1: cntMap[msg.author] - 1
     }
   })
   return cntMap
@@ -61,24 +57,25 @@ exports.create = function (api) {
                     "inquiry": msg.key,
                   }
                 }
+              }},
+              {"$map":{
+                "author": ["value", "author"],
+                "adopted": ["value", "content","adopted"]
               }}
             ]}),
             pull.collect(function(err, ary) {
               if(err) {throw err; return;}
-
-              console.dir(ary)
-
-              skillMatching[skillID](h('span',ary.map(function(adopt) {
-                return api.avatar_link(adopt.value.author, api.avatar_name(adopt.value.author))
+              var grouped = groupByNameAndCount(ary)
+              skillMatching[skillID](h('span', Object.keys(grouped).map(function(author) {
+                if (grouped[author] > 0) {
+                  return api.avatar_link(author, api.avatar_name(author))
+                }
               })))
             })
           )
 
           api.sbot_get(skillID, function(err, skMsg) {
             if(err) { throw err; return}
-
-
-
             positions_el.appendChild(h('li', skMsg.content.name, skillMatching[skillID]))
           })
         });
