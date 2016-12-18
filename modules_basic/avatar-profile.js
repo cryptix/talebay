@@ -39,7 +39,7 @@ exports.create = function (api) {
 
 
     // this counts skill adopted:true and :false messages to see which ones are still valid
-    function countAdopts(ary) {
+    function countFields(ary,field) {
       var cntMap  = {}
       ary.forEach(function(msg) {
         var c = msg.value.content
@@ -50,8 +50,8 @@ exports.create = function (api) {
       })
       ary.forEach(function(msg) {
         var c = msg.value.content
-        if (typeof c.adopted === "boolean") {
-          cntMap[c.sk0rg].cnt = c.adopted ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
+        if (typeof c[field] === "boolean") {
+          cntMap[c.sk0rg].cnt = c[field] ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
         }
       })
       return cntMap
@@ -109,12 +109,13 @@ exports.create = function (api) {
       ]}),
       pull.collect(function(err, ary) {
         if(err) {throw err; return;}
-        var adoptCnt = countAdopts(ary)
+        var adoptCnt = countFields(ary,"adopted")
         Object.keys(adoptCnt).forEach(function(msgKey) { // deduplicate the array
           var aboutMsg = adoptCnt[msgKey].msg
           if (adoptCnt[msgKey].cnt > 0) { // only add adopted themes
             var sk = aboutMsg.value.content.sk0rg
             api.sbot_get(sk, function(err, skMsg) {
+              if(err) { throw err; return}
 
               var deleteLink = obs()
               if (isMyself) {
