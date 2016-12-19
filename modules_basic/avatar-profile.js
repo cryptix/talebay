@@ -13,10 +13,11 @@ exports.needs = {
   follows: 'first',
   followers: 'first',
   sbot_get: 'first',
-  sbot_query: 'first',
   sbot_whoami: 'first',
   message_confirm: 'first',
-  message_compose: 'first'
+  message_compose: 'first',
+  ting_allskills:'first',
+  ting_myskills:'first'
 }
 
 exports.gives = 'avatar_profile'
@@ -68,9 +69,7 @@ exports.create = function (api) {
           adoptSelector_el = combobox({
             style: {'max-width': '26ex'},
             read: pull(
-              api.sbot_query({query:
-                [{"$filter": {"value": { "content":{ "type":"sk0rg" }}}}]
-              }),
+              api.ting_allskills(),
               // filter unadopted ones
               pull.map(function (sk) {
                 var t = sk.value.content.text
@@ -98,48 +97,35 @@ exports.create = function (api) {
     })
 
     // fill sk0rgs list
-    pull(
-      api.sbot_query({query: [
-        {"$filter": {
-          "value":{
-            "author": id,
-            "content": {"type":"about", "sk0rg":{"$prefix":""}}
-          }
-        }}
-      ]}),
-      pull.collect(function(err, ary) {
-        if(err) {throw err; return;}
-        var adoptCnt = countAdopted(ary)
-        Object.keys(adoptCnt).forEach(function(msgKey) { // deduplicate the array
-          var aboutMsg = adoptCnt[msgKey].msg
-          if (adoptCnt[msgKey].cnt > 0) { // only add adopted themes
-            var sk = aboutMsg.value.content.sk0rg
-            api.sbot_get(sk, function(err, skMsg) {
-              if(err) { throw err; return}
+    api.ting_myskills(id, function(err, aboutMsgArr) {
+      if(err) { throw err; return}
+      aboutMsgArr.forEach(function(aboutMsg) {
 
-              var deleteLink = obs()
-              if (isMyself) {
-                deleteLink(h('a', {href: '#', onclick: function(e) {
-                  e.preventDefault()
-                  // copy msg and invert it
-                  var untrack = aboutMsg.value.content
-                  untrack.adopted = false
-                  api.message_confirm(untrack, function (err, msg) {
-                    if(err) return alert(err)
-                    if(!msg) return
-                  })
-                }}, "(☢)"))
-              }
-              sk0rgs_el.appendChild(h('li',
-                // TODO: don't link to individual message, link to feed with all inquiries for this skill
-                h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
-                deleteLink
-              ))
-            })
+        var sk = aboutMsg.value.content.sk0rg
+        api.sbot_get(sk, function(err, skMsg) {
+          if(err) { throw err; return}
+
+          var deleteLink = obs()
+          if (isMyself) {
+            deleteLink(h('a', {href: '#', onclick: function(e) {
+              e.preventDefault()
+              // copy msg and invert it
+              var untrack = aboutMsg.value.content
+              untrack.adopted = false
+              api.message_confirm(untrack, function (err, msg) {
+                if(err) return alert(err)
+                if(!msg) return
+              })
+            }}, "(☢)"))
           }
+          sk0rgs_el.appendChild(h('li',
+            // TODO: don't link to individual message, link to feed with all inquiries for this skill
+            h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
+            deleteLink
+          ))
         })
       })
-    )
+    })
 
     // followers
     pull(api.follows(id), pull.unique(), pull.collect(function (err, ary) {
