@@ -53,6 +53,8 @@ exports.create = function (api) {
           }, function (err, msg) {
             if(err) return alert(err)
             if(!msg) return
+            postVal = !postVal
+            unAdopt(postVal ? "Adopt" : "Unadopt")
           })
         }}, unAdopt)
         return  a
