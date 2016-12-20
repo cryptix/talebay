@@ -1,5 +1,6 @@
 module.exports = {
   "about.js":  require('./about.js'),
+  "avatar-description.js":  require('./avatar-description.js'),
   "avatar-edit.js":  require('./avatar-edit.js'),
   "avatar-image.js":  require('./avatar-image.js'),
   "avatar-link.js":  require('./avatar-link.js'),
