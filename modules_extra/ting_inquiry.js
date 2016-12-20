@@ -62,7 +62,6 @@ exports.create = function (api) {
             api.sbot_get(skillID, function(err, skMsg) {
               if(err) { throw err; return}
               positions_el.appendChild(h('li',
-                skMsg.content.name,
                 (mySkills.indexOf(skillID) >= 0) ?
                   h("a",{href:"#", onclick: function(ev) {
                     ev.preventDefault()
@@ -74,6 +73,7 @@ exports.create = function (api) {
                       if(!msg) return
                     })
                   }}, "(+)") : null,
+                skMsg.content.name+": ",
                 skillMatching[skillID]
               ))
             })
@@ -85,8 +85,13 @@ exports.create = function (api) {
           h('strong','Hat: ',api.avatar_link(c.hat, api.avatar_name(c.hat))),
           h('br'),
           h('strong', 'skills needed:'),
-          positions_el
-          // TODO: location
+          positions_el,
+          h('strong', 'location:'),
+          h("iframe", {
+            "style": "width:100%",
+            "frameborder":"0",
+            "scrolling":"no",
+            "src":"http://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox="+encodeURIComponent(c.location.join(","))})
         )
       }
     }
