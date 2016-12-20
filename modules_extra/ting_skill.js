@@ -2,12 +2,7 @@ var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
 
-//render a message when someone follows someone,
-//so you see new users
-
-exports.needs = {
-  markdown: 'first',
-}
+exports.needs = { markdown: 'first' }
 
 exports.gives = {
   message_content: true,
@@ -31,6 +26,7 @@ exports.create = function (api) {
       if (msg.value.content.type === 'sk0rg') {
         var a = h('a', {href: '#', onclick: function (e) {
           e.preventDefault()
+          // TODO: confirm adopt
         }}, "Adopt")
         return  a
       }
