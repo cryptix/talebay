@@ -59,42 +59,8 @@ exports.create = function (api) {
     }
 
     //  make sure the sk0rgs are only displayed for yourself
-    var isMyself =false
-    api.sbot_whoami(function (err, feed) {
-      if (err) return console.error(err)
-      isMyself=id === feed.id
-      if (isMyself) {
-        sk0rgsAdopter( h('form',
-          h('span', 'Adopt existing:'),
-          adoptSelector_el = combobox({
-            style: {'max-width': '26ex'},
-            read: pull(
-              api.ting_allskills(),
-              // filter unadopted ones
-              pull.map(function (sk) {
-                var t = sk.value.content.text
-                if (t.length > 70) t = t.substr(0, 70) + '…'
-                return h('option', {value: sk.key},
-                  sk.value.content.name + ": " + t
-                )
-              }))
-          }),
-          h('button', {onclick: function (e) {
-            e.preventDefault()
-            api.message_confirm({
-              "type": 'about', "about": id,
-              "sk0rg":adoptSelector_el.value, "adopted": true,
-            }, function (err, msg) {
-              if(err) return alert(err)
-              if(!msg) return
-            })
-          }}, "Adopt"),
-          h('br'),
-          h('span', 'or add missing sk0rgs ',
-            h('a', {href: "#/ting-sk0rg"}, 'here'))
-        ))
-      }
-    })
+    var self_id = require('../keys').id
+    var isMyself = id === self_id
 
     // fill sk0rgs list
     api.ting_myskills(id, function(err, aboutMsgArr) {
@@ -105,9 +71,10 @@ exports.create = function (api) {
         api.sbot_get(sk, function(err, skMsg) {
           if(err) { throw err; return}
 
-          var deleteLink = obs()
-          if (isMyself) {
-            deleteLink(h('a', {href: '#', onclick: function(e) {
+          sk0rgs_el.appendChild(h('li',
+            // TODO: don't link to individual message, link to feed with all inquiries for this skill
+            h('a', {href: '#'+sk}, skMsg.content.name), ": " + skMsg.content.text,
+            isMyself ? h('a', {href: '#', onclick: function(e) {
               e.preventDefault()
               // copy msg and invert it
               var untrack = aboutMsg.value.content
@@ -116,12 +83,7 @@ exports.create = function (api) {
                 if(err) return alert(err)
                 if(!msg) return
               })
-            }}, "(☢)"))
-          }
-          sk0rgs_el.appendChild(h('li',
-            // TODO: don't link to individual message, link to feed with all inquiries for this skill
-            h('a', {href: '#'+msgKey}, skMsg.content.name), ": " + skMsg.content.text,
-            deleteLink
+            }}, "(☢)") : null
           ))
         })
       })
@@ -157,7 +119,6 @@ exports.create = function (api) {
 
     // return the ui
     var adoptSelector_el
-    var sk0rgsAdopter =obs() // observable because we have to wait for the whoami-callback...
     return h('div.column.profile',
       api.avatar_edit(id),
       api.avatar_description(id),
@@ -167,7 +128,35 @@ exports.create = function (api) {
       h('div.profile__relationships.column',
         h('strong', 'sk0rgs'),
         sk0rgs_el,
-        sk0rgsAdopter,
+        isMyself ? h('form',
+          h('span', 'Adopt existing:'),
+          adoptSelector_el = combobox({
+            style: {'max-width': '26ex'},
+            read: pull(
+              api.ting_allskills(),
+              // filter unadopted ones
+              pull.map(function (sk) {
+                var t = sk.value.content.text
+                if (t.length > 70) t = t.substr(0, 70) + '…'
+                return h('option', {value: sk.key},
+                  sk.value.content.name + ": " + t
+                )
+              }))
+          }),
+          h('button', {onclick: function (e) {
+            e.preventDefault()
+            api.message_confirm({
+              "type": 'about', "about": id,
+              "sk0rg":adoptSelector_el.value, "adopted": true,
+            }, function (err, msg) {
+              if(err) return alert(err)
+              if(!msg) return
+            })
+          }}, "Adopt"),
+          h('br'),
+          h('span', 'or add missing sk0rgs ',
+            h('a', {href: "#/ting-sk0rg"}, 'here'))
+        ) : null,
         h('strong', 'follows'),
         follows_el,
         h('strong', 'friends'),
