@@ -82,7 +82,7 @@ exports.create = function (api) {
 
         var el = h('div.inquiry',
           h('p', api.markdown(c.text)),
-          h('strong','Hat: ',api.avatar_link(c.hat, api.avatar_name(c.hat))),
+          h('strong','Hat: ', c.hat ? api.avatar_link(c.hat, api.avatar_name(c.hat)): "TODO: open hat"),
           h('br'),
           h('strong', 'skills needed:'),
           positions_el
