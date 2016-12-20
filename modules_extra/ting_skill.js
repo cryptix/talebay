@@ -36,7 +36,9 @@ exports.create = function (api) {
 
         api.ting_myskills(self_id, function(err, mySkills) {
           if(err) {throw err; return }
-          mySkills = mySkills.map(function(msg) { return msg.value.content.sk0rg })
+          mySkills = mySkills.map(function(msg) {
+            return msg.value.content.sk0rg 
+          })
 
           if (mySkills.indexOf(msg.key) >= 0) {
             unAdopt("Unadopt")
@@ -53,7 +55,7 @@ exports.create = function (api) {
           }, function (err, msg) {
             if(err) return alert(err)
             if(!msg) return
-            postVal = !postVal
+            postVal = !msg.value.content.adopted
             unAdopt(postVal ? "Adopt" : "Unadopt")
           })
         }}, unAdopt)
