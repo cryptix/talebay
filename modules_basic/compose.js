@@ -52,6 +52,8 @@ exports.create = function (api) {
       style: {height: opts.shrink === false ? '200px' : ''}
     })
 
+    if (opts.value) ta.value = opts.value
+
     if(opts.shrink !== false) {
       var blur
       ta.addEventListener('focus', function () {

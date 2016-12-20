@@ -4,6 +4,7 @@ var pull = require('pull-stream')
 exports.needs = {
   avatar_image_link: 'first',
   avatar_action: 'map',
+  avatar_description: 'first',
   avatar_edit: 'first',
   avatar_pinned: 'first',
   follows: 'first',
@@ -65,6 +66,9 @@ exports.create = function (api) {
 
     return h('div.column.profile',
       api.avatar_edit(id),
+      api.avatar_description(id),
+      h("strong", "pinned post"),
+      api.avatar_pinned(id),
       api.avatar_action(id),
       h('div.profile__relationships.column',
         h('strong', 'follows'),
@@ -73,9 +77,7 @@ exports.create = function (api) {
         friends_el,
         h('strong', 'followers'),
         followers_el
-      ),
-      h("strong", "pinned post"),
-      api.avatar_pinned(id)
+      )
     )
   }
 
