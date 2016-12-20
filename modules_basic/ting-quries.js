@@ -79,7 +79,7 @@ exports.create = function (api) {
               "content": {
                 "type":"ting-adopt",
                 "skill":skillID,
-                "inquiry": msg.key,
+                "inquiry": inquiryID,
               }
             }
           }},
