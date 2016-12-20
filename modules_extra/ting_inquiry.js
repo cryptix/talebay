@@ -80,19 +80,23 @@ exports.create = function (api) {
           })
         });
 
-        return h('div.inquiry',
+        var el = h('div.inquiry',
           h('p', api.markdown(c.text)),
           h('strong','Hat: ',api.avatar_link(c.hat, api.avatar_name(c.hat))),
           h('br'),
           h('strong', 'skills needed:'),
-          positions_el,
-          h('strong', 'location:'),
-          h("iframe", {
+          positions_el
+        )
+        if (c.location && c.location.length == 4){
+          el.appendChild( h('strong', 'location:'))
+          el.appendChild( h("iframe", {
             "style": "width:100%",
             "frameborder":"0",
             "scrolling":"no",
-            "src":"http://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox="+encodeURIComponent(c.location.join(","))})
-        )
+            "src":"http://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox="+encodeURIComponent(c.location.join(","))}))
+        }
+
+        return el
       }
     }
 
