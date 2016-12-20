@@ -3,34 +3,16 @@ var obs = require('observable')
 var u = require('../util')
 var pull = require('pull-stream')
 
-//render a message when someone follows someone,
-//so you see new users
-
 exports.needs = {
   avatar_name: 'first',
   avatar_link: 'first',
   sbot_get: 'first',
   sbot_query: 'first',
   markdown: 'first',
+  ting_inquiry_adopted: 'first'
 }
 
-exports.gives = {
-  message_content: true,
-}
-
-// similar to avatar-profile/countFields
-function groupByNameAndCount(ary) {
-  var cntMap  = {}
-  ary.forEach(function(msg) {
-    cntMap[msg.author]=0
-  })
-  ary.forEach(function(msg) {
-    if (typeof msg.adopted === "boolean") {
-      cntMap[msg.author] = msg.adopted ? cntMap[msg.author] + 1: cntMap[msg.author] - 1
-    }
-  })
-  return cntMap
-}
+exports.gives = { message_content: true }
 
 exports.create = function (api) {
 
@@ -44,35 +26,15 @@ exports.create = function (api) {
         var skillMatching = {}
         c.skills.forEach(function(skillID) {
 
-
           skillMatching[skillID] = obs()
+          api.inquiry_adopted(msg.key, inquiryID, function(err, grouped) {
+            skillMatching[skillID](h('span', Object.keys(grouped).map(function(author) {
+              if (grouped[author] > 0) {
+                return api.avatar_link(author, api.avatar_name(author))
+              }
+            })))
+          })
 
-          pull(
-            api.sbot_query({query: [
-              {"$filter": {
-                "value":{
-                  "content": {
-                    "type":"ting-adopt",
-                    "skill":skillID,
-                    "inquiry": msg.key,
-                  }
-                }
-              }},
-              {"$map":{
-                "author": ["value", "author"],
-                "adopted": ["value", "content","adopted"]
-              }}
-            ]}),
-            pull.collect(function(err, ary) {
-              if(err) {throw err; return;}
-              var grouped = groupByNameAndCount(ary)
-              skillMatching[skillID](h('span', Object.keys(grouped).map(function(author) {
-                if (grouped[author] > 0) {
-                  return api.avatar_link(author, api.avatar_name(author))
-                }
-              })))
-            })
-          )
 
           api.sbot_get(skillID, function(err, skMsg) {
             if(err) { throw err; return}

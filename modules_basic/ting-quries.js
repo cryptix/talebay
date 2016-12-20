@@ -5,6 +5,7 @@ exports.needs = { sbot_query: 'first' }
 exports.gives = {
   ting_allskills: true,
   ting_myskills:true,
+  ting_inquiry_adopted: true
 }
 function countAdopted(ary) {
   var cntMap  = {}
@@ -24,6 +25,19 @@ function countAdopted(ary) {
   return cntMap
 }
 
+function groupByNameAndCount(ary) {
+  var cntMap  = {}
+  ary.forEach(function(msg) {
+    cntMap[msg.author]=0
+  })
+  ary.forEach(function(msg) {
+    if (typeof msg.adopted === "boolean") {
+      cntMap[msg.author] = msg.adopted ? cntMap[msg.author] + 1: cntMap[msg.author] - 1
+    }
+  })
+  return cntMap
+}
+
 exports.create = function (api) {
 
   return {
@@ -34,7 +48,6 @@ exports.create = function (api) {
     },
 
     ting_myskills: function(id,cb) {
-
       pull(
         api.sbot_query({query: [
           {"$filter": {
@@ -54,6 +67,30 @@ exports.create = function (api) {
             }
           })
           cb(null, aboutMsgs)
+        })
+      )
+    },
+
+    ting_inquiry_adopted: function(inquiryID, skillID, cb) {
+      pull(
+        api.sbot_query({query: [
+          {"$filter": {
+            "value":{
+              "content": {
+                "type":"ting-adopt",
+                "skill":skillID,
+                "inquiry": msg.key,
+              }
+            }
+          }},
+          {"$map":{
+            "author": ["value", "author"],
+            "adopted": ["value", "content","adopted"]
+          }}
+        ]}),
+        pull.collect(function(err, ary) {
+          if(err) { return cb(err)}
+          cb(null, groupByNameAndCount(ary))
         })
       )
     }
