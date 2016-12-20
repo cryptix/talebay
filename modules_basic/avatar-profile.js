@@ -122,41 +122,39 @@ exports.create = function (api) {
     return h('div.column.profile',
       api.avatar_edit(id),
       api.avatar_description(id),
-      h("strong", "pinned post"),
-      api.avatar_pinned(id),
+      h('strong', 'sk0rgs'),
+      sk0rgs_el,
+      isMyself ? h('form',
+        h('span', 'Adopt existing:'),
+        adoptSelector_el = combobox({
+          style: {'max-width': '26ex'},
+          read: pull(
+            api.ting_allskills(),
+            // filter unadopted ones
+            pull.map(function (sk) {
+              var t = sk.value.content.text
+              if (t.length > 70) t = t.substr(0, 70) + '…'
+              return h('option', {value: sk.key},
+                sk.value.content.name + ": " + t
+              )
+            }))
+        }),
+        h('button', {onclick: function (e) {
+          e.preventDefault()
+          api.message_confirm({
+            "type": 'about', "about": id,
+            "sk0rg":adoptSelector_el.value, "adopted": true,
+          }, function (err, msg) {
+            if(err) return alert(err)
+            if(!msg) return
+          })
+        }}, "Adopt"),
+        h('br'),
+        h('span', 'or add missing sk0rgs ',
+          h('a', {href: "#/ting-sk0rg"}, 'here'))
+      ) : null,
       api.avatar_action(id),
       h('div.profile__relationships.column',
-        h('strong', 'sk0rgs'),
-        sk0rgs_el,
-        isMyself ? h('form',
-          h('span', 'Adopt existing:'),
-          adoptSelector_el = combobox({
-            style: {'max-width': '26ex'},
-            read: pull(
-              api.ting_allskills(),
-              // filter unadopted ones
-              pull.map(function (sk) {
-                var t = sk.value.content.text
-                if (t.length > 70) t = t.substr(0, 70) + '…'
-                return h('option', {value: sk.key},
-                  sk.value.content.name + ": " + t
-                )
-              }))
-          }),
-          h('button', {onclick: function (e) {
-            e.preventDefault()
-            api.message_confirm({
-              "type": 'about', "about": id,
-              "sk0rg":adoptSelector_el.value, "adopted": true,
-            }, function (err, msg) {
-              if(err) return alert(err)
-              if(!msg) return
-            })
-          }}, "Adopt"),
-          h('br'),
-          h('span', 'or add missing sk0rgs ',
-            h('a', {href: "#/ting-sk0rg"}, 'here'))
-        ) : null,
         h('strong', 'follows'),
         follows_el,
         h('strong', 'friends'),
