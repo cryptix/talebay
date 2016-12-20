@@ -60,7 +60,6 @@ exports.create = function (api) {
 
     //  make sure the sk0rgs are only displayed for yourself
     var self_id = require('../keys').id
-    var isMyself = id === self_id
 
     // fill sk0rgs list
     api.ting_myskills(id, function(err, aboutMsgArr) {
@@ -74,7 +73,7 @@ exports.create = function (api) {
           sk0rgs_el.appendChild(h('li',
             // TODO: don't link to individual message, link to feed with all inquiries for this skill
             h('a', {href: '#'+sk}, skMsg.content.name), ": " + skMsg.content.text,
-            isMyself ? h('a', {href: '#', onclick: function(e) {
+            (id === self_id) ? h('a', {href: '#', onclick: function(e) {
               e.preventDefault()
               // copy msg and invert it
               var untrack = aboutMsg.value.content
