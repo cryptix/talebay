@@ -1,5 +1,19 @@
+@font-face {
+  font-family: 'Noto Sans', sans-serif;
+  font-style: normal;
+  src: local('Noto Sans'), local('NotoSans'), url(NotoSans-Regular.ttf) format('truetype');
+}
+
+div.goLeft {
+  position:fixed;
+  width: 150px;
+}
+html{
+	background: #fff;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Noto Sans';
 }
 
 h1, h2, h3, h4, h5, h6, p, ul, ol {
@@ -28,8 +42,159 @@ a:focus {
   text-decoration: underline;
 }
 
+/* TING TING TING */
+
+#profile_wrapper, #profiles_wrapper{
+   /* TODO: hmmm width: 75%;
+    height: 170px;*/
+
+    margin-bottom: 8px;
+    border-bottom: 2px solid black;
+    padding-bottom: 7px;
+    
+}
+
+#profiles_wrapper{
+    margin-bottom: 8px;
+    border-bottom: 2px solid black;
+    padding-bottom: 7px;
+
+}
+
+#profile_image, #profiles_image{
+    width: 20%;
+    float: left;
+}
+
+
+#description_wrapper{
+    padding: 1%;
+    width: 38%;
+    height: 150px; 
+}
+
+#profile_name, #profiles_name{
+    width: 100%;
+    height: 15px;
+
+}
+
+#profile_location, #profiles_location{
+    width: 100%;
+    height: 15px;
+    color: darkgrey;
+    
+}
+
+#profile_description, #profiles_description{
+   height: 130px;
+
+}
+
+#skills_header{
+    width: 342px;
+    background: grey;
+    color: white;
+    padding-left: 8px;
+}
+
+#skill_list{
+    width: 40%;
+}
+
+#skill_plus, #new_insert{
+    background: lightgreen;
+}
+
+#profile_update{
+    margin-top: 15px;
+}
+
+#profile_inserts{
+    height: 85px;
+}
+
+.search_wrapper{
+    height: 50px;
+    color: black;
+}
+
+.profile_subscriptions{
+    height: 60px;
+    width: 60%;
+    border-bottom: 2px solid black;
+    margin-left: 15%;
+    margin-top: 20px;
+}
+
+.connections_image{
+    margin-right: 5px;
+}
+
+.skill_object, .inserts_object{
+    width: 80px;
+    margin-right: 15px;
+    margin-top: 5px;
+    padding-left: 5px;
+    background: #fff;
+    border: 2px solid black;
+}
+
+.connections_image{
+    width: 30px;
+    height: 30px;
+}
+
+.filter_object{
+    width: 80px;
+    margin-right: 15px;
+    margin-top: 5px;
+    padding-left: 5px;
+    background: #fff;
+    border: 2px solid grey;
+}
+
+.pencil{
+    width: 12px;
+    height: 12px;
+}
+
+
+.float{
+    float: left;
+}
+
+.name{
+    color: magenta;
+    font-weight: bold;    
+}
+
+
+.button
+{
+    width:100%; height:30px;
+    color: black;
+    position:relative;
+    float:left;
+    margin-right:10px;
+    margin-bottom:10px;
+    font-size:1em;
+    border: none solid #333; }
+
+.button:active{
+    opacity:0.7;
+}
+
+.key{
+    width:90%; 
+    height:100%; 
+
+    padding-left:10%; 
+
+}
+
 .screen {
-  position: absolute;
+  /*position: absolute; TODO: not sure what else breaks */
   top: 0; bottom: 0;
   left: 0; right: 0;
   overflow-y: hidden;
