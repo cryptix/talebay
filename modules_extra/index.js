@@ -17,6 +17,7 @@ module.exports = {
   'search.js': require('./search'),
   'split.js': require('./split.js'),
   'ting_view_profile.js': require('./ting_view_profile.js'),
+  'ting_view_inserts.js': require('./ting_view_inserts.js'),
   'ting_skill.js': require('./ting_skill.js'),
   'ting_inquiry.js': require('./ting_inquiry.js'),
   'ting_view_inquiry.js': require('./ting_view_inquiry.js'),
