@@ -86,7 +86,7 @@ exports.create = function (api) {
         accept.disabled = true
         accept.textContent = 'enter code'
       }
-      else if(!invite_parse(input.value)) {
+      else if(!api.invite_parse(input.value)) {
         accept.disabled = true
         accept.textContent = 'invalid code'
       }
