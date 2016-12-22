@@ -6,7 +6,12 @@ var Scroller = require('pull-scroll')
 exports.needs = {
   message_render: 'first',
   message_compose: 'first',
-  sbot_log: 'first'
+  sbot_get: 'first',
+  sbot_log: 'first',
+  avatar_description: 'first',
+  avatar_name: 'first',
+avatar_edit: 'first',
+  ting_myskills: 'first'
 }
 
 exports.gives = {
@@ -15,6 +20,7 @@ exports.gives = {
 }
 
 exports.create = function (api) {
+  var id = require('../keys').id
   return {
     menu_items: function () {
       return h('a', {href: '#/ting-profile'}, '/ting-profile')
@@ -22,7 +28,6 @@ exports.create = function (api) {
 
     screen_view: function (path) {
       if (path === '/ting-profile') {
-        var skillList = ["skill1", "skill2", "skill3", "skill4", "skill5", "skill6", "skill7", "skill8", "skill9"]
         var content = h('div.column.scroller__content')
         var div = h('div.column.scroller',
           {style: {'overflow': 'auto'}},
@@ -30,16 +35,27 @@ exports.create = function (api) {
             h("img.image.profile_image#profile_image.float" ,{src: "https://placekitten.com/g/128/126"}),
 
             h(".float#description_wrapper",
-              h(".name.float#profile_name", "Luroc_Late",
+              h(".name.float#profile_name", api.avatar_name(id),
+                //TODO: conflicting css      api.avatar_edit(id),
                 h("img.float.pencil", {src: "pencil-64x64.png"})),
               h(".location.float", "Hamburg, DE",
                 h("img.float.pencil", {src: "../../pencil-64x64.png"})),
-              h(".float#profile_description", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed.")
+              h(".float#profile_description",       api.avatar_description(id))
             ),
 
             h(".float.skill_list#skill_list",
-              skillList.map(function(skill) {
-                return h(".skill_object.float#skill" , skill)
+              api.ting_myskills(id, function(err,aboutMsgArr) {
+                if(err) { throw err; return}
+                aboutMsgArr.forEach(function(aboutMsg) {
+
+                  var sk = aboutMsg.value.content.sk0rg
+                  api.sbot_get(sk, function(err, skMsg) {
+                    if(err) { throw err; return}
+
+                    return h(".skill_object.float#skill" , skMsg.content.name)
+                  })
+                })
+
               }),
               h(".skill_object.float#skill_plus" , "+ skill")
             ),
