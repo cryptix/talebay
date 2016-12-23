@@ -5,6 +5,10 @@ module.exports = {
   needs: {screen_view: 'first'},
   gives: 'app',
   create: function (api) {
+      
+    var remote = require('electron').remote 
+    remote.getCurrentWindow().setSize(1000, 600);   
+      
     return function () {
       document.head.appendChild(h('style', require('../style.css.json')))
 

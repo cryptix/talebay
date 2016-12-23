@@ -4,6 +4,8 @@ var pull = require('pull-stream')
 var u = require('../util')
 var keyscroll = require('../keyscroll')
 var open = require('open-external')
+var signifier = require('../plugs').first(exports.signifier = [])
+
 
 function ancestor (el) {
   if(!el) return
@@ -14,7 +16,9 @@ function ancestor (el) {
 exports.needs = {
   screen_view: 'first',
   search_box: 'first', 
-  menu: 'first'
+  menu: 'first',
+  avatar_name: 'first'
+  
 }
 
 exports.gives = 'screen_view'
@@ -57,17 +61,21 @@ exports.create = function (api) {
 
     //reposition hypertabs menu to inside a container...
     tabs.insertBefore(h('div.header.goLeft',
-        h('div.header__search.end', h('div', search), api.menu()),
-        h('div.header__tabs', tabs.firstChild) //tabs
+        
+        h('div.header__tabs', tabs.firstChild), //tabs
+        h('div.header__search.end', h('div', search), api.menu())
     ), tabs.firstChild)
   //  tabs.insertBefore(searcabs.firstChild.nextSibling)
 
     var saved = []
   //  try { saved = JSON.parse(localStorage.openTabs) }
   //  catch (_) { }
-
+    
+    
+  //henry meinen link durch jeweilige user id ersetzen  
+    
     if(!saved || saved.length < 3)
-      saved = ['/ting-profile','/public', '/private', '/notifications', '/data']
+      saved = ['@0UnQNVTraZTNpWTQidnk8su6e1GqldPrBw/Ww/qUP8U=.ed25519',  '/public', '/private', '/notifications', ]
 
     saved.forEach(function (path) {
       var el = api.screen_view(path)
@@ -202,6 +210,9 @@ exports.create = function (api) {
         var Menu = remote.Menu
         var MenuItem = remote.MenuItem
         var menu = new Menu()
+              
+        
+        
         menu.append(new MenuItem({
           label: 'Inspect Element',
           click: function () {

@@ -11,6 +11,7 @@ var ref = require('ssb-ref')
 var visualize = require('visualize-buffer')
 var self_id = require('../keys').id
 
+
 //var confirm = plugs.first(exports.message_confirm = [])
 //var sbot_blobs_add = plugs.first(exports.sbot_blobs_add = [])
 //var blob_url = plugs.first(exports.blob_url = [])
@@ -41,7 +42,9 @@ exports.needs = {
   sbot_blobs_add: 'first',
   blob_url: 'first',
   sbot_links: 'first',
-  avatar_name: 'first'
+  avatar_name: 'first',
+  aboutself: 'first',
+  avatar_description: 'first'
 }
 
 exports.gives = 'avatar_edit'
@@ -53,8 +56,10 @@ exports.create = function (api) {
     img.classList.add('avatar--large')
 
     var lb = hyperlightbox()
-    var name_input = h('input', {placeholder: 'rename'})
+    var name_input = h('input.rename', {placeholder: 'rename'})
     var name = api.avatar_name(id)
+    var aboutself_input = h('input.aboutself', {placeholder: api.avatar_description(id)})
+    var aboutself = api.aboutself(id)
     var selected = null, selected_data = null
 
     getAvatar({links: api.sbot_links}, self_id, id, function (err, avatar) {
@@ -90,14 +95,10 @@ exports.create = function (api) {
       })
     )
 
-    return h('div.row.profile',
-      lb,
+    return h('div.row.profile', lb,
       img,
-      h('div.column.profile__info',
-        h('strong', name),
-        name_input,
-
-        hyperfile.asDataURL(function (data) {
+      
+      hyperfile.asDataURL(function (data) {
           var el = crop(data, function (err, data) {
             if(data) {
               img.src = data
@@ -124,15 +125,25 @@ exports.create = function (api) {
           })
           lb.show(el)
         }),
-        h('button', 'update', {onclick: function () {
+      h('div.column.profile__info',
+        h('strong.username', name),
+        name_input,
+        aboutself_input,
+        
+        //henry das funktioniert so noch nicht..
+        
+        h('button.update_profile', 'update', {onclick: function () {
           if(name_input.value)
             name.textContent = name_input.value
+          if(aboutself_input.value)
+            aboutself.textContent = aboutself_input.value            
 
           if(selected)
             api.message_confirm({
               type: 'about',
               about: id,
               name: name_input.value || undefined,
+              aboutself: aboutself_input.value,
               image: selected
             })
           else if(name_input.value) //name only
@@ -140,12 +151,18 @@ exports.create = function (api) {
               type: 'about',
               about: id,
               name: name_input.value || undefined,
+              aboutself: aboutself_input.value
             })
-          else
-            //another moment of weakness
-            alert('must select a name or image')
-        }}),
-      also_pictured
+          else if(aboutself_input.value) //always true
+            api.message_confirm({
+              type: 'about',
+              about: id,
+              name: aboutself_input.value || undefined,
+            })
+//          else
+//            //another moment of weakness
+//            alert('must select a name or image')
+        }})
       )
     )
   }

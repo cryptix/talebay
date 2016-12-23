@@ -2,16 +2,29 @@ var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
+var obs = require('observable')
+var cat = require('pull-cat')
+var combobox = require('hypercombo')
+
 
 exports.needs = {
   message_render: 'first',
   message_compose: 'first',
-  sbot_get: 'first',
-  sbot_log: 'first',
-  avatar_description: 'first',
   avatar_name: 'first',
-avatar_edit: 'first',
-  ting_myskills: 'first'
+  avatar_image_link: 'first',
+  avatar_action: 'map',
+  avatar_description: 'first',
+  avatar_edit: 'first',
+  avatar_pinned: 'first',
+  follows: 'first',
+  followers: 'first',
+  sbot_log: 'first',
+  sbot_get: 'first',
+  sbot_whoami: 'first',
+  message_confirm: 'first',
+  message_compose: 'first',
+  ting_allskills:'first',
+  ting_myskills:'first'
 }
 
 exports.gives = {
@@ -21,9 +34,10 @@ exports.gives = {
 
 exports.create = function (api) {
   var id = require('../keys').id
+    
   return {
     menu_items: function () {
-      return h('a', {href: '#/ting-profile'}, '/ting-profile')
+      return h('a.avatar', {href: "#"+id, title: id}, element)
     },
 
     screen_view: function (path) {
