@@ -32,7 +32,7 @@ exports.create = function (api) {
   return function (id) {
 
 
-    var sk0rgs_el = h('ul')
+    var sk0rgs_el = h('div.skill_list.float')
     var follows_el = h('div.profile__follows.wrap')
     var friends_el = h('div.profile__friendss.wrap')
     var followers_el = h('div.profile__followers.wrap')
@@ -70,9 +70,9 @@ exports.create = function (api) {
         api.sbot_get(sk, function(err, skMsg) {
           if(err) { throw err; return}
 
-          sk0rgs_el.appendChild(h('li',
+          sk0rgs_el.appendChild(h('div.skill_object.float',
             // TODO: don't link to individual message, link to feed with all inquiries for this skill
-            h('a', {href: '#'+sk}, skMsg.content.name), ": " + skMsg.content.text,
+            h('a', {href: '#'+sk}, skMsg.content.name), //": " + skMsg.content.text,
             (id === self_id) ? h('a', {href: '#', onclick: function(e) {
               e.preventDefault()
               // copy msg and invert it
@@ -120,19 +120,22 @@ exports.create = function (api) {
     var adoptSelector_el
     return h('div.column.profile',
       api.avatar_edit(id),
-      api.avatar_description(id),
-      h('strong', 'sk0rgs'),
+   //   api.avatar_description(id),    //henry: ausversehen selbst versucht zu implementieren
+                                       //s.h. avatar-name und avatar-edit
+   // h('strong', 'sk0rgs'),
       sk0rgs_el,
-      h('span', 'adopt existing or add missing sk0rgs ',
-        h('a', {href: "#/ting-sk0rg"}, 'here')),
-      api.avatar_action(id),
+      h('div.skill_object.green.float', 
+        h('a', {href: "#/ting-sk0rg"}, '+ skill')),
+  //  api.avatar_action(id),           //buggy; temporär
       h('div.profile__relationships.column',
-        h('strong', 'follows'),
+        h('div.profile_headline', 'Contacts'),
         follows_el,
-        h('strong', 'friends'),
+  //    h('strong', 'friends'),
         friends_el,
-        h('strong', 'followers'),
-        followers_el
+  //    h('strong', 'followers'),
+        followers_el,
+        h('div.profile_headline.inserts', 'Inserts')
+  //henry: query "meine inserate" möglich?
       )
     )
   }
