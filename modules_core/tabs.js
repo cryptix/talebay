@@ -74,8 +74,10 @@ exports.create = function (api) {
     
   //henry meinen link durch jeweilige user id ersetzen  
     
+    var id= require('../keys').id
+    
     if(!saved || saved.length < 3)
-      saved = ['@0UnQNVTraZTNpWTQidnk8su6e1GqldPrBw/Ww/qUP8U=.ed25519',  '/public', '/private', '/notifications', ]
+      saved = [id,  '/public', '/private', '/notifications', ]
 
     saved.forEach(function (path) {
       var el = api.screen_view(path)
