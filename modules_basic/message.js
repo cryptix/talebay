@@ -38,11 +38,11 @@ exports.create = function (api) {
 
   function mini(msg, el) {
     var div = h('div.message.message--mini',
-      h('div.row',
-        h('div',
-          api.avatar_link(msg.value.author, api.avatar_name(msg.value.author)),
+      h('div.row__meta',
+        h('div.avatar',
+          api.avatar(msg.value.author, 'thumbnail'),
           h('span.message_content', el)),
-        h('div.message_meta.row', api.message_meta(msg))
+        h('div.message_meta.row__meta', api.message_meta(msg))
       )
     )
     div.setAttribute('tabindex', '0')
@@ -88,12 +88,12 @@ exports.create = function (api) {
   //  )
 
     var msg = h('div.message',
-      h('div.title.row',
+      h('div.title.row__meta',
         h('div.avatar', api.avatar(msg.value.author, 'thumbnail')),
-        h('div.message_meta.row', api.message_meta(msg))
+        h('div.message_meta.row__meta', api.message_meta(msg))
       ),
       h('div.message_content', el),
-      h('div.message_actions.row',
+      h('div.message_actions.row__meta',
         h('div.actions', api.message_action(msg),
           h('a', {href: '#' + msg.key}, 'Reply')
         )

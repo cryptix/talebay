@@ -3,7 +3,7 @@
   font-style: normal;
   src: local('Noto Sans'), local('NotoSans'), url(NotoSans-Regular.ttf) format('truetype');
 }
-/*div{
+/* div{
     background: rgba(120, 110, 140, 0.1);
 }*/
 
@@ -226,6 +226,10 @@ a:focus {
   min-height:0px;
 }
 
+.row__message{
+  min-height: 0px;
+}
+
 .end {
   justify-content: flex-end;
 }
@@ -317,6 +321,10 @@ button:hover {
 
 .float{
     float: left;
+}
+
+.floatright{
+  float: right;
 }
 
 .menu {
@@ -414,7 +422,7 @@ button:hover {
 }
 
 .message_meta > * {
-  margin-left: .5ex;
+ /* margin-left: .5ex;*/
 }
 
 .message_actions {
@@ -425,7 +433,7 @@ button:hover {
 }
 
 .title {
-  padding: .5ex;
+ /* padding: .5ex;*/
 }
 
 .message img {
@@ -437,7 +445,8 @@ button:hover {
 }
 
 .message_content {
-  padding: .5ex;
+  padding-left: 3em;
+  padding-right: .5ex;
 }
 
 .actions > * {
