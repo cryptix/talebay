@@ -25,7 +25,7 @@ exports.create = function (api) {
     var tmp = h('div')
     var el
     var pre
-    return h('input', {
+    return h('input.floatright', {
       type: 'checkbox',
       title: 'View Data',
       onclick: function () {
