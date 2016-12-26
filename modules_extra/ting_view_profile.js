@@ -36,8 +36,8 @@ exports.create = function (api) {
   var id = require('../keys').id
     
   return {
-    menu_items: function () {
-      return h('a.avatar', {href: "#"+id, title: id}, element)
+    builtin_tabs: function () {
+      return ['/ting-profile']
     },
 
     screen_view: function (path) {

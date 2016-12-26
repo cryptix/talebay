@@ -72,7 +72,8 @@ exports.create = function (api) {
                 throw new Error('cannot make private message without recipients - just mention the user in an at reply in the message you send')
               return msg
             },
-            placeholder: 'Write a private message'
+            placeholder: 'Write a private message',
+              
           }
           )
 

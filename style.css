@@ -3,9 +3,9 @@
   font-style: normal;
   src: local('Noto Sans'), local('NotoSans'), url(NotoSans-Regular.ttf) format('truetype');
 }
-/* div{
+ div{
     background: rgba(120, 110, 140, 0.1);
-}*/
+}
 
 div.goLeft {
   position:fixed;
@@ -294,6 +294,13 @@ input:focus, .compose:focus, .message:focus, button:focus {
 textarea {
   padding: .5em;
   font-size: 1em;
+  float: left;
+  height: 20vh;
+  width: 20vw;
+}
+
+textarea__message{
+    
 }
 
 textarea:focus {
@@ -365,11 +372,13 @@ button:hover {
   width: 100%;
   margin-top: .5em;
   margin-bottom: .5em;
+  margin-left: 16vw;
   border: 1px solid #f5f5f5;
 }
 
 .compose button {
-  float: right;
+  float: left;
+  clear: left;
 }
 
 /* messages */
@@ -395,6 +404,7 @@ button:hover {
   margin: 0;
   padding: .2em;
   border: none;
+  opacity: 0.5;
   background: inherit;
 }
 
@@ -526,10 +536,9 @@ button:hover {
 }
 
 input[type="file" i]{
-    margin-top: 13vw;
+    float: left;
     width: 90px !important;
     max-width: 15vw !important;
-    height: 57px !important;
     opacity: 0.8 !important;
     overflow: hidden !important;
     
@@ -592,12 +601,11 @@ input[type="file" i]{
   padding: 1.5em;
   margin-top: 3em;
   margin-bottom: 3em;
-  width: 100%;
+  margin-right: 17vw;
+  left: 0px;
+  width: 66vw;
   background: #f5f5f5;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid #eee;
-  border-radius: .2em;
+  border: 2px solid black;
   z-index: 2;
 }
 
