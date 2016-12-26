@@ -101,19 +101,40 @@ exports.create = function (api) {
           })
         });
 
+        pull(
+          api.sbot_query({query: [
+            {"$filter": {
+              "value":{
+                "content": {
+                  "type":"ting-adopt",
+                  "hat": {$prefix: '@'},
+                  "inquiry": msg.key,
+                }
+              }
+            }}
+          ]}),
+          pull.drain(function(msg) {
+            lateHat(api.avatar_link(msg.value.author, api.avatar_name(msg.value.author)))
+          })
+        )
+        var lateHat = obs(h("a",{href:"#", onclick: function(ev) {
+          ev.preventDefault()
+          api.message_confirm({
+            "type": 'ting-adopt', "adopted": true,
+            "hat": self_id, "inquiry": msg.key,
+          }, function (err, msg) {
+            if(err) {throw err; return}
+            if(!msg) return
+          })
+        }}, "(Take it!)"))
         var el = h('div.inquiry',
           h('strong', 'description'),
           (self_id === msg.value.author) ? h('a', {href:"#", onclick: function(e) {
             e.preventDefault()
 
             mdDescr(api.message_compose(
-              {
-                type:"ting-edit",
-                "inquiry": msg.key,
-              },
-              {
-                value: currDescr,
-              },
+              { type:"ting-edit", "inquiry": msg.key },
+              { value: currDescr },
               function(err, msg) {
                 if (err) throw err
                 currDescr = msg.value.content.text
@@ -122,7 +143,7 @@ exports.create = function (api) {
             )
           }}, "(edit)") : null,
           mdDescr,
-          h('strong','Hat: ', c.hat ? api.avatar_link(c.hat, api.avatar_name(c.hat)): "TODO: open hat"),
+          h('strong','Hat: ', c.hat ? api.avatar_link(c.hat, api.avatar_name(c.hat)) : lateHat),
           h('br'),
           h('strong', 'skills needed:'),
           positions_el
