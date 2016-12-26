@@ -1,7 +1,6 @@
 Intro       
             -key eingeben schön machen
 
-
 Hauptseite                                  
             -Name fürs Netzwerk
             -Einleitungstext
@@ -9,11 +8,10 @@ Hauptseite
             -Query Übersicht fehlende Fähigkeiten: mindestens was noch gar nicht belegt ist; wenns geht wieviel wovon belegt ist.
             
 Profil
-            -Description
             -Inserate des Nutzers
             -Nachricht eingabe schön machen
             -Message-Mini?
-	    -@user default text wenn nicht eigens profil
+            -@user default text wenn nicht eigens profil
             
 User
             -Query Users
@@ -41,5 +39,6 @@ ting-sk0rg
 lightbox
 
 
-wie kann man private id exportieren?
-            
+allgemein
+          - wording (sk0rg, inqu1ry, .. ) => ?
+          - [x] wie kann man private id exportieren? => /key on mobile/liteclient
