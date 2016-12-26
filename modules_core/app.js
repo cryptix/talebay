@@ -6,8 +6,10 @@ module.exports = {
   gives: 'app',
   create: function (api) {
       
-    var remote = require('electron').remote 
-    remote.getCurrentWindow().setSize(1000, 600);   
+    if (process.versions.electron) {
+      var remote = require('electron').remote
+      remote.getCurrentWindow().setSize(1000, 600)
+    }
       
     return function () {
       document.head.appendChild(h('style', require('../style.css.json')))
