@@ -1,18 +1,10 @@
 'use strict'
 var h = require('hyperscript')
-
-var plugs = require('../plugs')
-var cont = require('cont')
-var ref = require('ssb-ref')
+var pull = require('pull-stream')
 
 exports.needs = {
-  message_render: 'first',
-  message_compose: 'first',
-  message_unbox: 'first',
-  sbot_log: 'first',
-  sbot_whoami: 'first',
-  avatar_image_link: 'first',
-  emoji_url: 'first'
+  message_name: 'first',
+  sbot_query: 'first'
 }
 
 exports.gives = {
@@ -28,26 +20,47 @@ exports.create = function (api) {
     },
 
     screen_view: function (path) {
-    if(path === '/ting-overview') {
+      if(path !== '/ting-overview') return
 
-     var content = h('div.column.scroller__content')
-     var div = h('div.column.scroller',
-       {style: {'overflow':'auto'}},
-       h('div.scroller__wrapper',
-         h('div.column.scroller__content'),
-           h('div.headline'),
-           h('div.introduction'),
-           h('div.missing_skills')
-         )  
-       )
-     
-      var id = require('../keys').id
-     
-   
-      var content = h('div.column.scroller__content')
-        div.appendChild(h('div.scroller__wrapper', 'test'))
-     }
-        return div;
+
+      pull(
+        api.sbot_query({query: [
+          {"$filter": {
+            "value":{
+              "author": require('../keys.js').id,
+              "content": {
+                "type":"ting-adopt",
+              }
+            }
+          }},
+          {"$map": {
+            "inquiry": ["value","content","inquiry"]
+          }}
+        ]}),
+        pull.unique("inquiry"),
+        pull.drain(function(msg) {
+          api.message_name(msg.inquiry, function (err, name) {
+            if(err) { throw err; return}
+            content.appendChild(h('li',
+              h('a',{href:"#"+msg.inquiry}, name)))
+          })
+        })
+      )
+
+      var content = h('ul')
+      var div = h('div.column.scroller',
+        {style: {'overflow':'auto'}},
+        h('div.scroller__wrapper',
+          h('div.column.scroller__content'),
+          h('div.headline', h('h1', "hello world")),
+          h('div.introduction'),
+          h('div.missing_skills'),
+          h('div.missing_skills'),
+          h('h3', 'inqu1ries you take part in:'),
+          content
+        ))
+
+      return div;
     }
   }
 }
