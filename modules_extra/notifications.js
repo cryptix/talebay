@@ -8,11 +8,6 @@ var plugs = require('../plugs')
 var cont = require('cont')
 var ref = require('ssb-ref')
 
-//var message_render = plugs.first(exports.message_render = [])
-//var sbot_log = plugs.first(exports.sbot_log = [])
-//var sbot_get = plugs.first(exports.sbot_get = [])
-//var sbot_user_feed = plugs.first(exports.sbot_user_feed = [])
-//var message_unbox = plugs.first(exports.message_unbox = [])
 
 exports.needs = {
   message_render: 'first',
@@ -104,6 +99,12 @@ exports.create = function (api) {
 
         case 'issue-edit':
           return isAnyOurMessage(msg, [c.issue].concat(c.issues), cb)
+
+        case 'ting-adopt':
+          // TOOD: might be we hat'ed this or took a position
+          return isOurMsg(c.inquiry, function (err, isOurs) {
+            cb(err, isOurs ? msg : null)
+          })
 
         default:
           cb()
