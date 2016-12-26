@@ -9,6 +9,7 @@ exports.needs = {
   sbot_get: 'first',
   sbot_query: 'first',
   markdown: 'first',
+  message_compose: 'first',
   message_confirm: 'first',
   ting_myskills: 'first',
   ting_inquiry_adopted: 'first'
@@ -27,8 +28,27 @@ exports.create = function (api) {
         var positions_el = h('ul')
 
         var skillMatching = {}
+        var currDescr = c.text
+        var mdDescr = obs(api.markdown(currDescr))
 
-        // terribly convoluted
+        // convoluted - load text edits
+        pull(
+          api.sbot_query({query:[
+            {"$filter": { "value": {
+              "author": msg.value.author,
+              "content": {
+                "type":"ting-edit",
+                "inquiry": msg.key
+              }
+            }}},
+          ], "reverse": true, limit:1}),
+          pull.drain(function (update) {
+            currDescr = update.value.content.text
+            mdDescr(api.markdown(update.value.content))
+          })
+        )
+
+        // terribly convoluted - load (matching) skills
         api.ting_myskills(self_id, function(err, mySkills) {
           if(err) { throw err; return}
           mySkills = mySkills.map(function(msg) { return msg.value.content.sk0rg })
@@ -59,6 +79,7 @@ exports.create = function (api) {
             })
 
 
+            // adopt skills buttons
             api.sbot_get(skillID, function(err, skMsg) {
               if(err) { throw err; return}
               positions_el.appendChild(h('li',
@@ -81,12 +102,32 @@ exports.create = function (api) {
         });
 
         var el = h('div.inquiry',
-          h('p', api.markdown(c.text)),
+          h('strong', 'description'),
+          (self_id === msg.value.author) ? h('a', {href:"#", onclick: function(e) {
+            e.preventDefault()
+
+            mdDescr(api.message_compose(
+              {
+                type:"ting-edit",
+                "inquiry": msg.key,
+              },
+              {
+                value: currDescr,
+              },
+              function(err, msg) {
+                if (err) throw err
+                currDescr = msg.value.content.text
+                mdDescr(api.markdown(msg.value.content))
+              })
+            )
+          }}, "(edit)") : null,
+          mdDescr,
           h('strong','Hat: ', c.hat ? api.avatar_link(c.hat, api.avatar_name(c.hat)): "TODO: open hat"),
           h('br'),
           h('strong', 'skills needed:'),
           positions_el
         )
+          /* TODO for v1.5: missing picker and queries..
         if (c.location && c.location.length == 4){
           el.appendChild( h('strong', 'location:'))
           el.appendChild( h("iframe", {
@@ -95,6 +136,7 @@ exports.create = function (api) {
             "scrolling":"no",
             "src":"http://www.openstreetmap.org/export/embed.html?layer=mapnik&bbox="+encodeURIComponent(c.location.join(","))}))
         }
+        */
 
         return el
       }
