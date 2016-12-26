@@ -6,6 +6,8 @@ var Scroller = require('pull-scroll')
 exports.needs = {
   message_render: 'first',
   message_compose: 'first',
+  ting_myskills: 'first',
+  sbot_get: 'first',
   sbot_log: 'first'
 }
 
@@ -14,22 +16,32 @@ exports.gives = {
 }
 
 exports.create = function (api) {
+
+
   return {
     menu_items: function () {
       return h('a', {href: '#/ting-inqu1ry'}, '/ting-inqu1ry')
     },
 
-    screen_view: function (path) {
-      if (path === '/ting-inqu1ry') {
-        var content = h('div.column.scroller__content')
-        var div = h('div.column.scroller',
-          {style: {'overflow': 'auto'}},
-          h('div.scroller__wrapper', content)
-        )
+    screen_view: function (path, opts) {
+      if (path !== '/ting-inqu1ry') return
 
-        function filterFn(msg) {
+      function switchSkill(ev) {
+        if (ev) ev.preventDefault()
+
+        var selectedSkill = this
+
+        var oldEL = document.getElementById("fetchMe");
+
+        var content = h('div.scroller__content#fetchMe')
+        oldEL.parentNode.replaceChild(content, oldEL);
+
+
+        function filterFn (msg) {
           if (typeof msg.value.content.type === 'undefined') return false
-          return msg.value.content.type.match(/^ting-inquiry/)
+          if (!msg.value.content.type.match(/^ting-inquiry/)) return false
+          if (typeof selectedSkill.key === 'undefined') return true
+          return msg.value.content.skills.indexOf(selectedSkill.key) > -1
         }
 
         pull(
@@ -43,9 +55,35 @@ exports.create = function (api) {
           pull.filter(filterFn),
           Scroller(div, content, api.message_render, false, false)
         )
-
-        return div
       }
+
+      var self_id = require('../keys').id
+      var skillSwitchers = h('ul')
+      api.ting_myskills(self_id, function(err, mySkills) {
+        if (err) {throw error; return}
+        mySkills = mySkills.map(function(msg) { return msg.value.content.sk0rg })
+        mySkills.forEach(function(skID) {
+          api.sbot_get(skID, function(err, skMsg) {
+            if(err) { throw err; return}
+            skMsg.key = skID
+            skillSwitchers.appendChild( h('li',
+              h('a',{href:'#', onclick: switchSkill.bind(skMsg)}, skMsg.content.name)))
+          })
+        })
+      })
+      var content = h('div.scroller__content#fetchMe')
+      var div = h('div.scroller',
+        {style: {'overflow': 'auto'}},
+        h('div', h('strong', 'skill filter:'), skillSwitchers),
+        h('div.scroller__wrapper', content)
+      )
+
+      // ugly hack because div needs to be returned first
+      setTimeout(function() {
+        switchSkill()
+      }, 100)
+
+      return div
     }
   }
 }

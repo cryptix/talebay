@@ -2,7 +2,7 @@ Intro
             -key eingeben schön machen
 
 Hauptseite                                  
-            -Name fürs Netzwerk
+            -Name fürs Netzwerk => t4l3.net
             -Einleitungstext
             -Button new insert
             -Query Übersicht fehlende Fähigkeiten: mindestens was noch gar nicht belegt ist; wenns geht wieviel wovon belegt ist.
@@ -18,16 +18,11 @@ User
             -Query Users by Skill
             
 Inserate
-            -Query Inserate
-            -Query Inserate by Skill
-            -Query Inserate by Skill nicht belegt
+            - Query Inserate by Skill nicht belegt (wo kann ich noch mitmachen)
             
 Inserat erstellen
             -Eigener Channel?
             -default-Fähigkeit: Leitung(/Triebkraft  o.ä.); muss man übernehmen, wenn man nicht nur eine idee vorschlägt.
-            
-public 
-            -
             
 Notifications
             -???
