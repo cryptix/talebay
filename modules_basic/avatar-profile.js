@@ -38,26 +38,6 @@ exports.create = function (api) {
     var followers_el = h('div.profile__followers.wrap')
     var a, b
 
-
-    // this counts skill adopted:true and :false messages to see which ones are still valid
-    function countAdopted(ary) {
-      var cntMap  = {}
-      ary.forEach(function(msg) {
-        var c = msg.value.content
-        cntMap[c.sk0rg]={
-          cnt:0,
-          msg: msg,
-        }
-      })
-      ary.forEach(function(msg) {
-        var c = msg.value.content
-        if (typeof c["adopted"] === "boolean") {
-          cntMap[c.sk0rg].cnt = c["adopted"] ? cntMap[c.sk0rg].cnt + 1:cntMap[c.sk0rg].cnt - 1
-        }
-      })
-      return cntMap
-    }
-
     //  make sure the sk0rgs are only displayed for yourself
     var self_id = require('../keys').id
 
@@ -120,9 +100,7 @@ exports.create = function (api) {
     var adoptSelector_el
     return h('div.column.profile',
       api.avatar_edit(id),
-   //   api.avatar_description(id),    //henry: ausversehen selbst versucht zu implementieren
-                                       //s.h. avatar-name und avatar-edit
-   // h('strong', 'sk0rgs'),
+      h('div.row.profile', api.avatar_description(id)),
       sk0rgs_el,
       h('div.skill_object.green.float', 
         h('a', {href: "#/ting-sk0rg"}, '+ skill')),
@@ -130,9 +108,7 @@ exports.create = function (api) {
       h('div.profile__relationships.column',
         h('div.profile_headline', 'Contacts'),
         follows_el,
-  //    h('strong', 'friends'),
         friends_el,
-  //    h('strong', 'followers'),
         followers_el,
         h('div.profile_headline.inserts', 'Inserts')
   //henry: query "meine inserate" möglich?

@@ -4,11 +4,7 @@ var h = require('hyperscript')
 
 exports.needs = { signifier: 'first' }
 
-exports.gives = {
-  avatar_name: true,
-  aboutself: true
-}
-
+exports.gives = { avatar_name: true }
 
 exports.create = function (api) {
 
@@ -28,16 +24,6 @@ exports.create = function (api) {
       })
 
       return n
-    },
-
-    aboutself:  function about (id) {
-      var a = h('span', id.substring(0, 10))
-
-      api.signifier(id, function (_, names) {
-        if(names.length) a.textContent = names[0].about
-      })
-
-      return a
     }
   }
 }
