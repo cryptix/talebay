@@ -206,14 +206,16 @@ a:focus {
 }
 
 .screen {
-  /*position: absolute; TODO: not sure what else breaks */
+  position: absolute;
   top: 0; bottom: 0;
   left: 0; right: 0;
-  overflow-y: hidden;
+
 }
 
 .column {
-  float: left;
+  display: flex;
+  flex-direction: column;
+  min-height:0px;
   font-size: .95em;
 }
 
@@ -221,10 +223,13 @@ a:focus {
     width: 100%;
 }
 
-.row {  
-  float: left;
+.row {
+  display: flex;
+  flex-direction: row;
   min-height:0px;
 }
+
+
 
 .row__message{
   min-height: 0px;
@@ -356,10 +361,10 @@ button:hover {
 }
 
 .scroller__wrapper {
-
-  max-width: 100%;
+  flex: 1;
 
 }
+
 
 .scroller__content {
     margin-left: 16vw;
@@ -373,6 +378,7 @@ button:hover {
   margin-top: .5em;
   margin-bottom: .5em;
   margin-left: 16vw;
+  border: 1px solid #f5f5f5;
 }
 
 .compose button {

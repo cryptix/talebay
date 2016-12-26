@@ -34,9 +34,9 @@ exports.create = function (api) {
           h('div.scroller__wrapper',
             api.message_compose({type: 'post'}, {placeholder: 'Write a public message'}),
             content
-          )
+          )                
         )
-
+        
         pull(
           u.next(api.sbot_log, {old: false, limit: 100}),
           Scroller(div, content, api.message_render, true, false)
