@@ -72,12 +72,10 @@ exports.create = function (api) {
   //  catch (_) { }
     
     
-  //henry meinen link durch jeweilige user id ersetzen  
-    
     var id= require('../keys').id
     
-    if(!saved || saved.length < 3)
-      saved = [id,  '/public', '/private', '/notifications', ]
+    if(!saved || saved.length < 4)
+      saved = ['/ting-overview' , id, '/user', '/inserts', '/new insert', '/public', '/notifications', ]
 
     saved.forEach(function (path) {
       var el = api.screen_view(path)

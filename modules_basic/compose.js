@@ -47,33 +47,33 @@ exports.create = function (api) {
     var accessories
     meta = meta || {}
     if(!meta.type) throw new Error('message must have type')
-    var ta = h('textarea', {
+    var ta = h('textarea.textarea__message', {
       placeholder: opts.placeholder || 'Write a message',
       style: {height: opts.shrink === false ? '200px' : ''}
-    })
+    }, opts.recipient)
 
     if (opts.value) ta.value = opts.value
 
-    if(opts.shrink !== false) {
-      var blur
-      ta.addEventListener('focus', function () {
-        clearTimeout(blur)
-        if(!ta.value) {
-          ta.style.height = '200px'
-        }
-        accessories.style.display = 'block'
-      })
-      ta.addEventListener('blur', function () {
-        //don't shrink right away, so there is time
-        //to click the publish button.
-        clearTimeout(blur)
-        blur = setTimeout(function () {
-          if(ta.value) return
-          ta.style.height = '50px'
-          accessories.style.display = 'none'
-        }, 200)
-      })
-    }
+//    if(opts.shrink !== false) {//
+//      var blur
+//      ta.addEventListener('focus', function () {
+//        clearTimeout(blur)
+//        if(!ta.value) {
+//          ta.style.height = '200px'
+//        }
+//        accessories.style.display = 'block'
+//      })
+//      ta.addEventListener('blur', function () {
+//        //don't shrink right away, so there is time
+//        //to click the publish button.
+//        clearTimeout(blur)
+//        blur = setTimeout(function () {
+//          if(ta.value) return
+//          ta.style.height = '50px'
+//          accessories.style.display = 'none'
+//        }, 200)
+//      })
+//    }
 
     ta.addEventListener('keydown', function (ev) {
       if(ev.keyCode === 13 && ev.ctrlKey) publish()
@@ -125,7 +125,7 @@ exports.create = function (api) {
       h('div.compose', h('div.column', ta,
         accessories = h('div.row.compose__controls',
           //hidden until you focus the textarea
-          {style: {display: opts.shrink === false ? '' : 'none'}},
+          //{style: {display: opts.shrink === false ? '' : 'none'}},
           api.file_input(function (file) {
             files.push(file)
             filesById[file.link] = file
