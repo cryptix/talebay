@@ -67,8 +67,8 @@ exports.create = function (api) {
       update()
     })
 
-    var state = h('label')
-    var label = h('span')
+    var state = h('label#follow_state')
+    var label = h('span#follow_label')
 
     function update () {
       state.textContent = (

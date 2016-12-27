@@ -45,11 +45,12 @@ exports.create = function (api) {
           )  
       
 
+        
     if(ref.isFeed(id)) {
 
       var content = h('div.column.scroller__content')
       var div = h('div.column.scroller',
-        {style: {'overflow':'auto'}},
+        {style: {'overflow': 'auto' }},
         h('div.scroller__wrapper',
           h('div', api.avatar_profile(id)),
           compose, content

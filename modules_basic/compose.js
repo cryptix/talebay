@@ -122,8 +122,10 @@ exports.create = function (api) {
 
     var publishBtn = h('button', 'Publish', {onclick: publish})
     var composer =
-      h('div.compose', h('div.column', ta,
-        accessories = h('div.row.compose__controls',
+      h('div.compose', h('div', ta,
+        accessories = h('div.compose__controls',
+                        
+          publishBtn,
           //hidden until you focus the textarea
           //{style: {display: opts.shrink === false ? '' : 'none'}},
           api.file_input(function (file) {
@@ -133,8 +135,7 @@ exports.create = function (api) {
             var embed = file.type.indexOf('image/') === 0 ? '!' : ''
             ta.value += embed + '['+file.name+']('+file.link+')'
             console.log('added:', file)
-          }),
-          publishBtn)
+          }))
         )
       )
 

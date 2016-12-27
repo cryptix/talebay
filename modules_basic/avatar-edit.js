@@ -43,7 +43,8 @@ exports.needs = {
   blob_url: 'first',
   sbot_links: 'first',
   avatar_name: 'first',
-  avatar_description: 'first'
+  avatar_description: 'first',
+  avatar_action: 'map'
 }
 
 exports.gives = 'avatar_edit'
@@ -92,7 +93,7 @@ exports.create = function (api) {
       })
     )
 
-    return h('div.row.profile', lb,
+    return h('div.profile#profile1', lb,
       img,
       
       hyperfile.asDataURL(function (data) {
@@ -143,7 +144,9 @@ exports.create = function (api) {
               about: id,
               name: name_input.value || undefined,
             })
-        }})
+        }}),
+        h('div.row.profile.description', api.avatar_description(id)),
+        api.avatar_action(id)
       )
     )
   }
