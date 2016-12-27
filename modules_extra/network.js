@@ -168,7 +168,7 @@ exports.create = function (api) {
 
       })()
 
-      return h('div.column.scroll-y', ol)
+      return h('div.column.scroll-y',h('div.scroller', ol))
     }
   }
 }

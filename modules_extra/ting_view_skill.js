@@ -4,6 +4,7 @@ var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 
 exports.needs = {
+  
   message_render: 'first',
   message_compose: 'first',
   sbot_log: 'first'

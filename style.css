@@ -1,4 +1,5 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 @font-face {
   font-family: 'Noto Sans', sans-serif;
@@ -50,6 +51,14 @@ a:focus {
 }
 
 /* TING TING TING */
+
+.text_wrapper{
+    width: 42vw;
+}
+
+.ts{
+    margin-bottom: .5em;
+}
 
 #profile_wrapper, #profiles_wrapper{
    /* TODO: hmmm width: 75%;
@@ -121,6 +130,10 @@ a:focus {
     height: 85px;
 }
 
+.padded{
+    padding-bottom: .5em;
+}
+
 .search_wrapper{
     height: 50px;
     color: black;
@@ -133,7 +146,7 @@ a:focus {
     margin-left: 15%;
     margin-top: 20px;
 }
-
+ 
 .description{
 
     width: 24vw;
@@ -156,7 +169,8 @@ a:focus {
     margin-top: 5px;
     padding-left: 5px;
     background: #fff;
-    border: 2px solid darkred;
+    border: 2px solid #cc0066;
+    border-radius: 2px;
 }
 
 .skill_object_inline{
@@ -179,6 +193,7 @@ a:focus {
     background: lightgreen;
     margin-left: 16vw;
     clear: left;
+    border-color: green;
 }
 
 .connections_image{
@@ -331,6 +346,7 @@ textarea {
   float: left;
   height: 12vh;
   width: 44vw;
+  border: 1px solid lightgrey;
 }
 
 #profile1{
@@ -395,6 +411,12 @@ button:hover {
 
 .scroller__wrapper {
   flex: 1;
+
+}
+
+.scroller__wrapper__overview {
+  flex: 1;
+    width: 43vw;
 
 }
 
@@ -631,7 +653,7 @@ input[type="file" i]{
 }
 
 .username{
-    color: magenta;
+    color: #0088cc;
     float: left;
     margin-right: .8vw;
 }
@@ -669,7 +691,7 @@ input[type="file" i]{
 
 
 #follow_label{
-    color: purple;
+    color: #0088cc;
 }
 
 #follow_state{
@@ -784,7 +806,7 @@ input[type="file" i]{
 .header__tabs {
   width: 100%; 
   min-width: 0px;
-  height: calc(100vh - 2.5em);
+  height: calc(100vh - 3em);
 }
 
 .header__search{
@@ -859,3 +881,12 @@ input[type="file" i]{
     width: 50vw;
 }
 
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+* {
+    font-size: 2vw;
+    }
+button {
+    width: 100%;
+    height: 10vw;
+    }
+}

@@ -2,7 +2,7 @@ Intro
             -key eingeben schön machen
 
 Hauptseite                                  
-            -Name fürs Netzwerk => t4l3.net
+            [x]-Name fürs Netzwerk => t4l3.net
             -Einleitungstext
             -Query Übersicht fehlende Fähigkeiten: mindestens was noch gar nicht belegt ist; wenns geht wieviel wovon belegt ist.
             
@@ -13,7 +13,7 @@ Profil
             -@user default text wenn nicht eigens profil
             
 User
-            -Query Users
+            [x]-Query Users
             -Query Users by Skill
             
 Inserate
