@@ -36,7 +36,7 @@ exports.create = function (api) {
       if(!data) return cb(new Error('not a valid invite code:' + invite))
 
       onProgress('Connecting...')
-  
+
       api.sbot_gossip_connect(data.remote, function (err) {
         if(err) console.log(err)
       })
@@ -52,9 +52,9 @@ exports.create = function (api) {
 
           //if they already follow us, just check we actually follow them.
           if(err) api.follower_of(id, data.key, function (_err, follows) {
-              if(follows) { location.hash = '' }
-              else next()
-            })
+            if(follows) { location.hash = '' }
+            else next()
+          })
           else next()
 
           function next () {
@@ -88,15 +88,14 @@ exports.create = function (api) {
       //request follow
       //post pub announce
       //post follow pub
-      var div = h('div.column.scroller__wrapper',
-        h('div.column.scroller__content', {style: 'margin-top: 25%;'},
-          h('h1', {innerHTML: 'The <a href="https://scuttlebot.io">Secure Scuttlebutt</a> Lite Client'}),
-          h('p', "You've been invited to join:"),
-          h('p', h('code', data.invite))
+      var div = h('div.column.scroller',
+        h('div',
+          "you have been invited to join:", h('br'),
+          h('code', data.invite)
         ),
-        h('p', h('button', 'Accept', {onclick: attempt})),
-        progress,
-        h('p', "Once you're in, give yourself a name and photo. And don't forget to say 'Hello!'")
+        h('button', 'accept', {onclick: attempt}),
+        h('div.hyperprogress_wrapper',
+          progress)
       )
 
       function attempt () {

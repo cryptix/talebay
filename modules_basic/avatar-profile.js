@@ -100,18 +100,17 @@ exports.create = function (api) {
     var adoptSelector_el
     return h('div.column.profile',
       api.avatar_edit(id),
-      h('div.row.profile', api.avatar_description(id)),
+      
       sk0rgs_el,
       h('div.skill_object.green.float', 
         h('a', {href: "#/ting-sk0rg"}, '+ skill')),
-  //  api.avatar_action(id),           //buggy; temporär
-      h('div.profile__relationships.column',
+                 
+      h('div.profile__relationships',
         h('div.profile_headline', 'Contacts'),
         follows_el,
         friends_el,
-        followers_el,
-        h('div.profile_headline.inserts', 'Inserts')
-  //henry: query "meine inserate" möglich?
+        followers_el
+
       )
     )
   }

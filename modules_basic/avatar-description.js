@@ -59,7 +59,7 @@ exports.create = function (api) {
             })
 
           )
-        }}, "(edit)") : null),
+        }}, " (edit)") : null),
         md)
     }
   }

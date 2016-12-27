@@ -30,13 +30,13 @@ exports.create = function (api) {
     screen_view: function (path) {
       if(path !== tabName) return
 
-      var skillFields = h('ul')
+      var skillFields = h('div.skill_wrapper')
       pull(
         api.ting_allskills(),
         pull.filter(function(obj) { return obj.value.content.name != "" }),
         pull.drain(function(skMsg) {
           skillFields.appendChild(
-            h('label',
+            h('div.skill_object.float',
               h('input.skillEls',{type:'checkbox', name:"wantedSkills", value:skMsg.key} ),
               skMsg.value.content.name
             )
@@ -45,20 +45,8 @@ exports.create = function (api) {
       )
 
       var div = h('div.scroller', h('div.scroller__wrapper',
-        h('h1', 'create new inqu1ry'),
-
-        h('h3', 'do you want to the hat on in this project or do you only want to share the idea?'),
-        h('label',
-          h('input', {type: 'radio', name:"hatOrNoHat", value:"proj", checked:true}),
-          "Yes, i want to have the Hat on in this project"),
-        h('label',
-          h('input', {type: 'radio', name:"hatOrNoHat", value:"idea"}),
-          "No, just an Idea"),
-
-        h('h3', 'select skill positions'),
-        skillFields,
-
-        h('h3', 'add a description and press publish'),
+         h('div.profile_headline', 'describe your project'),
+        h('div.compose_wrapper',                            
         api.message_compose(
           {type: 'ting-inquiry'},
           {
@@ -84,7 +72,20 @@ exports.create = function (api) {
               return value
             }
           }
-        )
+        )),
+
+        h('div.profile_headline_short.float.clear', 'do you want the hat?'),
+        h('label.float.clear',
+          h('input', {type: 'radio', name:"hatOrNoHat", value:"proj", checked:true}),
+          "Yes, i want to have the Hat on in this project"),
+        h('label.float.clear',
+          h('input', {type: 'radio', name:"hatOrNoHat", value:"idea"}),
+          "No, it's an Idea"),
+
+        h('div.profile_headline_short.float.clear', 'select skill positions'),
+        skillFields
+
+       
 
       ))
       return div

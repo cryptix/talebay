@@ -25,7 +25,7 @@ exports.create = function (api) {
     message_content: function (msg) {
       var c = msg.value.content
       if(c.type === 'ting-inquiry') {
-        var positions_el = h('ul')
+        var positions_el = h('div.inquiry_skills.float')
 
         var skillMatching = {}
         var currDescr = c.text
@@ -56,10 +56,10 @@ exports.create = function (api) {
           c.skills.forEach(function(skillID) {
             skillMatching[skillID] = obs()
             api.ting_inquiry_adopted(msg.key, skillID, function(err, grouped) {
-              skillMatching[skillID](h('span',
+              skillMatching[skillID](h('div',
                 Object.keys(grouped).map(function(author) {
                   if (grouped[author] > 0) {
-                    var el = h("span", api.avatar_link(author, api.avatar_name(author)))
+                    var el = h("div.skill_object_inline.float", api.avatar_link(author, api.avatar_name(author)))
                     if (author == self_id) {
                       el.appendChild( h("a",{href:"#", onclick: function(ev) {
                         ev.preventDefault()
@@ -70,7 +70,7 @@ exports.create = function (api) {
                           if(err) {throw err; return}
                           if(!msg) return
                         })
-                      }}, "(-)"))
+                      }}, " (-)"))
                     }
                     return el
                   }
@@ -82,7 +82,8 @@ exports.create = function (api) {
             // adopt skills buttons
             api.sbot_get(skillID, function(err, skMsg) {
               if(err) { throw err; return}
-              positions_el.appendChild(h('li',
+              positions_el.appendChild(h('div.skill_object.float',
+                 skMsg.content.name,
                 (mySkills.indexOf(skillID) >= 0) ?
                   h("a",{href:"#", onclick: function(ev) {
                     ev.preventDefault()
@@ -93,8 +94,8 @@ exports.create = function (api) {
                       if(err) {throw err; return}
                       if(!msg) return
                     })
-                  }}, "(+)") : null,
-                skMsg.content.name+": ",
+                  }}, " (+)") : null,
+                
                 skillMatching[skillID]
               ))
             })
@@ -145,7 +146,7 @@ exports.create = function (api) {
           mdDescr,
           h('strong','Hat: ', c.hat ? api.avatar_link(c.hat, api.avatar_name(c.hat)) : lateHat),
           h('br'),
-          h('strong', 'skills needed:'),
+          h('div', 'skills needed:'),
           positions_el
         )
           /* TODO for v1.5: missing picker and queries..

@@ -21,12 +21,16 @@ exports.create = function (api) {
 
     screen_view: function (path) {
       if (path === '/ting-sk0rg') {
-        var content = h('div.column.scroller__content')
+        var content = h('div.column.scroller__content__filter')
         var sk0rgName_el
         var div = h('div.column.scroller',
           {style: {'overflow': 'auto'}},
           h('div.scroller__wrapper',
+            h('div.profile_headline', 'skill name'),
             sk0rgName_el=h('input', {placeholder: "sk0rg name"}),
+            
+              h('div.profile_headline_short', 'description'),
+            h('div.compose_wrapper',
             api.message_compose(
               {type: 'sk0rg' },
               {
@@ -36,7 +40,7 @@ exports.create = function (api) {
                   return value
                 }
               }
-            ),
+            )),
             content)
         )
 
