@@ -62,7 +62,7 @@ exports.create = function (api) {
                 if(err) return alert(err)
                 if(!msg) return
               })
-            }}, "(☢)") : null
+            }}, " (-)") : null
           ))
         })
       })

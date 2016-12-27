@@ -27,5 +27,5 @@ module.exports = {
   'ting_view_users.js': require('./ting_view_users.js'), 
   'ting_adopt.js': require('./ting_adopt.js'),
 
-  'versions.js': require('./versions.js')
+//  'versions.js': require('./versions.js')
 }
