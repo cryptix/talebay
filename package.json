@@ -34,6 +34,7 @@
     "pull-paramap": "^1.1.6",
     "pull-reconnect": "^0.0.3",
     "pull-scroll": "^0.2.0",
+    "pull-sort": "^1.0.0",
     "pull-stream": "^3.4.5",
     "scuttlebot": "^8.7.2",
     "simple-mime": "^0.1.0",

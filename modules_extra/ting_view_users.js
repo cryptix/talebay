@@ -1,6 +1,7 @@
 var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
+var pullSort = require('pull-sort')
 var Scroller = require('pull-scroll')
 
 exports.needs = {
@@ -77,6 +78,13 @@ exports.create = function (api) {
       pull(
         api.ting_allskills(),
         pull.filter(function(obj) { return obj.value.content.type === "sk0rg" }),
+        pullSort(function(a, b){
+          var a = a.value.content.name
+          var b = b.value.content.name
+          if(a < b) return -1;
+          if(a > b) return 1;
+          return 0;
+        }),
         pull.drain(function(skMsg) {
           skillFields2.appendChild(
             h('div.skill_object.float',
