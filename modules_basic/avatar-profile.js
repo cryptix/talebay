@@ -103,7 +103,7 @@ exports.create = function (api) {
       
       sk0rgs_el,
       h('div.skill_object.green.float', 
-        h('a', {href: "#/ting-sk0rg"}, '+ skill')),
+        h('a', {href: "#/new skill"}, '+ skill')),
                  
       h('div.profile__relationships',
         h('div.profile_headline', 'Contacts'),

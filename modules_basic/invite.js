@@ -110,7 +110,8 @@ exports.create = function (api) {
           h('div.ts', 'To "take the hat" means to be responsible for the completion of an idea. You can create inquiries without taking the hat. In this case someone else can take it.'),
           h('div.ts', 'When you see an inquiry you want to work on, you can choose a skill position by clicking the (+) on the skill button.'),
           h('div.ts', 'To think is to share. to share is to know. to know is to help. TALE.'),
-          h('div.ts', h('a', {href: 'http://github.com/'}, 'Repository')))
+          h('div.ts',  'Repository coming soon'),
+          h('div.ts', '--This is a prototype. If there are any problems try refreshing first.--'))
       )
 
       function attempt () {
