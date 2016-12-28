@@ -17,11 +17,11 @@ exports.gives = {
 exports.create = function (api) {
   return {
     menu_items: function () {
-      return h('a', {href: '#/new skill'}, '/new skill')
+      return h('a', {href: '#/new_skill'}, '/new_skill')
     },
 
     screen_view: function (path) {
-      if (path === '/new skill') {
+      if (path === '/new_skill') {
         var content = h('div.column.scroller__content__filter')
         var sk0rgName_el
         var div = h('div.column.scroller',

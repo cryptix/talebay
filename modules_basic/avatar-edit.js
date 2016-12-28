@@ -95,34 +95,34 @@ exports.create = function (api) {
 
     return h('div.profile#profile1', lb,
       img,
-      
-      hyperfile.asDataURL(function (data) {
-          var el = crop(data, function (err, data) {
-            if(data) {
-              img.src = data
-              var _data = dataurl.parse(data)
-              pull(
-                pull.once(_data.data),
-                api.sbot_blobs_add(function (err, hash) {
-                  //TODO. Alerts are EVIL.
-                  //I use them only in a moment of weakness.
-
-                  if(err) return alert(err.stack)
-                  selected = {
-                    link: hash,
-                    size: _data.data.length,
-                    type: _data.mimetype,
-                    width: 512,
-                    height: 512
-                  }
-
-                })
-              )
-            }
-            lb.close()
-          })
-          lb.show(el)
-        }),
+ //hyperfile crashes public server     
+//      hyperfile.asDataURL(function (data) {//
+//          var el = crop(data, function (err, data) {
+//            if(data) {
+//              img.src = data
+//              var _data = dataurl.parse(data)
+//              pull(
+//                pull.once(_data.data),
+//                api.sbot_blobs_add(function (err, hash) {
+//                  //TODO. Alerts are EVIL.
+//                  //I use them only in a moment of weakness.
+//
+//                  if(err) return alert(err.stack)
+//                  selected = {
+//                    link: hash,
+//                    size: _data.data.length,
+//                    type: _data.mimetype,
+//                    width: 512,
+//                    height: 512
+//                  }
+//
+//                })
+//              )
+//            }
+//            lb.close()
+//          })
+//          lb.show(el)
+//        }),
       h('div.column.profile__info',
         h('strong.username', name),
         name_input,

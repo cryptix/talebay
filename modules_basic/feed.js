@@ -53,7 +53,7 @@ exports.create = function (api) {
         {style: {'overflow': 'auto' }},
         h('div.scroller__wrapper',
           h('div', api.avatar_profile(id)),
-          h('div.profile_headline.float', {style: {'margin-left':'16vw'}},'write secret message'),
+          h('div.profile_headline.float', {style: {'margin-left':'.16vw'}},'write secret message'),
           compose, content
         )
       )

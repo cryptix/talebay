@@ -158,7 +158,7 @@ a:focus {
 }
 
 .skill_list{
-    margin-left: 16vw;
+    margin-left: .16vw;
     width: 46vw;
 }
 
@@ -191,7 +191,7 @@ a:focus {
 
 .green{
     background: lightgreen;
-    margin-left: 16vw;
+    margin-left: .16vw;
     clear: left;
     border-color: green;
 }
@@ -424,7 +424,7 @@ button:hover {
 
 .scroller__content {
     clear: left;
-    margin-left: 16vw;
+    margin-left: .16vw;
     margin-right: 15vw;
 }
 
@@ -441,7 +441,7 @@ button:hover {
 }
 
 .userfilter_description{
-    margin-left: 3em;
+    margin-left: .3em;
 }
 
 /* compose */
@@ -450,7 +450,7 @@ button:hover {
   width: 50vw;
   margin-top: .5em;
   margin-bottom: .5em;
-  margin-left: 16vw;
+  margin-left: .16vw;
   border: 1px solid #f5f5f5;
 }
 
@@ -535,7 +535,7 @@ button:hover {
 }
 
 .message_content {
-  padding-left: 3em;
+  padding-left: .3em;
   padding-right: .5ex;
 }
 
@@ -678,7 +678,7 @@ input[type="file" i]{
 }
 
 .profile__info {
-  margin-left: 16vw ;
+  margin-left: .16vw ;
 }
 
 .aboutself {
@@ -687,7 +687,7 @@ input[type="file" i]{
 }
 
 .compose_wrapper{
-    margin-left: -16vw;
+    margin-left: -.16vw;
 }
 
 .clear{
@@ -726,7 +726,7 @@ input[type="file" i]{
 
 .profile__relationships{
     clear: left;
-    margin-left: 16vw;
+    margin-left: .16vw;
     width: 50vw;
 }
 
@@ -791,7 +791,7 @@ input[type="file" i]{
 .status {
   width: .7em;
   height: .7em;
-  margin: .7em;
+  margin-top: 1em;
   border-radius: 100%;
   background: #08c;
 }
@@ -891,12 +891,16 @@ input[type="file" i]{
     flex: none;
 }
 
+img{
+    display:none;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
 * {
     font-size: 2vw;
     }
 button {
-    width: 100%;
+    width: 25vw;
     height: 10vw;
     }
 }
