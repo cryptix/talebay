@@ -10,6 +10,8 @@ exports.needs = {
   avatar_description: 'first',
   avatar_edit: 'first',
   avatar_pinned: 'first',
+  avatar_name: 'first',
+  avatar_link: 'first',
   follows: 'first',
   followers: 'first',
   sbot_get: 'first',
@@ -88,9 +90,10 @@ exports.create = function (api) {
         if(!~_c.indexOf(id)) _b.push(id)
       })
       function add (ary, el) {
-        ary.forEach(function (id) { el.appendChild(image_link(id)) })
+        ary.forEach(function (id) { el.appendChild(api.avatar_link(id, api.avatar_name(id))) })
+       // ary.forEach(function (id) { el.appendChild(h('span', ' ')) })
       }
-
+//var name = api.avatar_name(id)
       add(_a, follows_el)
       add(_c, friends_el)
       add(_b, followers_el)
@@ -103,10 +106,10 @@ exports.create = function (api) {
       
       sk0rgs_el,
       h('div.skill_object.green.float', 
-        h('a', {href: "#/new skill"}, '+ skill')),
+        h('a', {href: "#/new_skill"}, 'new skill')),
                  
       h('div.profile__relationships',
-        h('div.profile_headline', 'Contacts'),
+        h('div.profile_headline_short', 'Contacts'),
         follows_el,
         friends_el,
         followers_el

@@ -14,7 +14,7 @@ exports.gives = {
   screen_view: true
 }
 
-var tabName = '/new inquiry'
+var tabName = '/new_inquiry'
 
 exports.create = function (api) {
 

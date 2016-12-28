@@ -94,7 +94,7 @@ exports.create = function (api) {
         h('div',
           "you have been invited to join:", h('br'),
           h('code', data.invite)
-        ),
+        ), 
         h('button.invite_accept', 'accept', {onclick: attempt}),
         h('div.hyperprogress_wrapper',
         progress),
@@ -118,7 +118,7 @@ exports.create = function (api) {
         self.invite_accept(invite, function (message) {
           progress.next(message)
         }, function (err) {
-          if(err) return 
+          if(err) return progress.fail(err)
           progress.complete()
           //check for redirect
           var parts = location.hash.substring(1).split('#')
@@ -134,7 +134,7 @@ exports.create = function (api) {
 
       // If we are in the browser,
       // and do not already have a remote set, automatically trigger the invite.
-      if(process.title == 'browser' && !localStorage.remote) attempt()
+      //if(process.title == 'browser' && !localStorage.remote) attempt()
 
       return div
     }
