@@ -9,6 +9,9 @@ module.exports = {
     if (process.versions.electron) {
       var remote = require('electron').remote
       remote.getCurrentWindow().setSize(1000, 600)
+       document.title = "t4l3";
+    }else{
+        document.title = "t4l3";
     }
       
     return function () {

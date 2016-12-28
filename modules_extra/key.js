@@ -53,7 +53,7 @@ exports.create = function (api) {
           )
           return div
         } else { 
-          return h('p', 'Your key is saved at .ssb/secret')
+          return h('p.scroller', 'Your key is saved at .ssb/secret')
         }
       }
     }

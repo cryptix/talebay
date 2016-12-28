@@ -628,6 +628,8 @@ button:hover {
   height: 15vw;
     max-height: 160px;
   position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .avatar--thumbnail {
@@ -660,6 +662,9 @@ input[type="file" i]{
 
 .skill_wrapper{
     width: 47vw;
+    height: 30vh;
+    float: left;
+    overflow:auto;
 }
 
 .profile {
@@ -879,6 +884,11 @@ input[type="file" i]{
 
 .hyperprogress_wrapper{
     width: 50vw;
+    height: 100px;
+}
+
+.invite_accept{
+    flex: none;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {

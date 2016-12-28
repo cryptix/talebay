@@ -75,7 +75,7 @@ exports.create = function (api) {
     var id= require('../keys').id
     
     if(!saved || saved.length < 4)
-      saved = ['/t4l3', id, '/ting-inqu1ry', '/ting-new-inqu1ry', '/collaborators',  '/public', '/secret', '/notifications']
+      saved = ['/t4l3', id, '/inquiries', '/new inquiry', '/collaborators',  '/public', '/secret', '/notifications']
 
     saved.forEach(function (path) {
       var el = api.screen_view(path)

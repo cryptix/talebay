@@ -95,16 +95,29 @@ exports.create = function (api) {
           "you have been invited to join:", h('br'),
           h('code', data.invite)
         ),
-        h('button', 'accept', {onclick: attempt}),
+        h('button.invite_accept', 'accept', {onclick: attempt}),
         h('div.hyperprogress_wrapper',
-          progress)
+        progress),
+        h('div.profile_headline_short', "about"),
+          h('div.text_wrapper',
+          h('div.ts', "t4l3 is a platform for collaboration."),
+          h('div.ts','You can use it to search for collaborators that are needed for a certain idea or find ideas that need your help. '),
+          h('div.ts', 'Imagine this platform as a black board, where you can share ideas, combine skills and get in contact to make things happen.'),
+          h('div.ts', 't4l3 is based on ', h('a', {href: 'https://github.com/ssbc/patchbay'}, 'patchbay '), 'which relies on the ', h('a', {href: 'https://ssbc.github.io/secure-scuttlebutt/'}, 'Secure Scuttlebutt '), ' protocol. Secure Scuttlebutt is a p2p protocol, please consider running the local client. You can extract your personal key by typing "/key" in the searchbox in the bottom left'),
+          h('div.ts', "Please start by editing your profile (2nd tab on the left) and defining one of your skills."), h('div.ts', "You can create new skills. New skills do not have to be for yourself and aren't adopted automatically. You can communicate your skills by clicking the adopt button. please check if skills are already available before creating a new one to prevent duplicates."),
+          
+          h('div.ts', 'You can share new inquiries and attach needed skills.'),
+          h('div.ts', 'To "take the hat" means to be responsible for the completion of an idea. You can create inquiries without taking the hat. In this case someone else can take it.'),
+          h('div.ts', 'When you see an inquiry you want to work on, you can choose a skill position by clicking the (+) on the skill button.'),
+          h('div.ts', 'To think is to share. to share is to know. to know is to help. TALE.'),
+          h('div.ts', h('a', {href: 'http://github.com/'}, 'Repository')))
       )
 
       function attempt () {
         self.invite_accept(invite, function (message) {
           progress.next(message)
         }, function (err) {
-          if(err) return progress.fail(err)
+          if(err) return 
           progress.complete()
           //check for redirect
           var parts = location.hash.substring(1).split('#')
