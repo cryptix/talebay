@@ -14,7 +14,7 @@ exports.gives = {
   screen_view: true
 }
 
-var tabName = '/ting-new-inqu1ry'
+var tabName = '/new inquiry'
 
 exports.create = function (api) {
 

@@ -20,11 +20,11 @@ exports.create = function (api) {
 
   return {
     menu_items: function () {
-      return h('a', {href: '#/ting-inqu1ry'}, '/ting-inqu1ry')
+      return h('a', {href: '#/inquiries'}, '/inquiries')
     },
 
     screen_view: function (path, opts) {
-      if (path !== '/ting-inqu1ry') return
+      if (path !== '/inquiries') return
 
       function switchSkill(ev) {
         if (ev) ev.preventDefault()
