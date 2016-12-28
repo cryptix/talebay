@@ -27,7 +27,8 @@ exports.create = function (api) {
         var div = h('div.column.scroller',
           {style: {'overflow': 'auto'}},
           h('div.scroller__wrapper',
-            h('div.profile_headline', 'skill name'),
+            h('strong', {style: {'color':'red'}}, "Please check in the list below if the skill you  want to adopt is already present. Please don't create duplicates! The server is running slow at the moment, please give the list some time to load."),
+            h('div.profile_headline', 'create new skill'),
             sk0rgName_el=h('input', {placeholder: "sk0rg name"}),
             
               h('div.profile_headline_short', 'description'),
