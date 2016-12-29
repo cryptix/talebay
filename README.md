@@ -1,49 +1,43 @@
-# patchbay
+# talebay
 
-Prototype of a pluggable patchwork.
+talebay is only a first prototype.
 
-`patchbay` is an secure-scuttlebutt client interface
-that is fully compatible with [patchwork](https://github.com/ssbc/patchwork)
+![](https://t4l3.net/screenshot.png)
 
-I started `patchbay` to experiment with a different internal architecture
-based on [depject](https://github.com/dominictarr/depject). The goal was
-to make it easier to develop new features, and enable or disable features.
-This has so far been quite successful!
+`talebay` is a fork of the [patchbay](https://github.com/ssbc/patchbay), an (secure-scuttlebutt](https://scuttlebot.io) client interface.
 
-This makes in very easy to create say, a renderer for a new message type,
-or switch to a different method for choosing user names.
+
 
 ## Running
 
-```
-npm install scuttlebot@latest -g
-# make sure you have secure-scuttlebutt@15.2.0
-npm ls secure-scuttlebutt -g
-sbot server
-# if you are already running patchwork, that also works.
-# (must have at least >= 2.8)
+First I have to ask you to install `sbot`, which distributes the database content with your friends and makes it available to client programs, like `talebay`. (All this is based on [nodejs](https://nodejs.org), so install that if you havn't already.)
 
-# then in another tab (these must be 3 separate commands)
-sbot plugins.install ssb-links
-sbot plugins.install ssb-query
-sbot plugins.install ssb-ws
-# restart sbot server (go back to previous tab and kill it)
 ```
-now clone and run patchbay.
-```
-git clone https://github.com/dominictarr/patchbay.git
-cd patchbay
-npm install
-npm run rebuild
-npm run bundle
-npm start
+# install sbot
+$ npm install scuttlebot@latest -g
+$ sbot server
+
+# then in another terminal window (these must be 3 separate commands)
+# install the plugins talebay needs
+$ sbot plugins.install ssb-links
+$ sbot plugins.install ssb-query
+$ sbot plugins.install ssb-ws
+
+# restart sbot server (go back to previous tab and kill it by closing the window or pressing ctrl+c)
+
+
+# now clone and run patchbay.
+
+$ git clone http://git.scuttlebot.io/%25nrVrnO5An0BWMGK7yo1t%2Ft7YSSdNR8KKagWSaPYPbak%3D.sha256 talebay
+$ cd talebay
+$ npm install
+$ npm run rebuild
+$ npm start
 ```
 
-## Lite
+## Lite (web/non-electron)
 
-To run a lite client in the browser instead of using electron, use npm
-run lite from the prompt instead of run bundle. After that you need to
-generate a modern invite:
+To run a lite client in the browser instead of using electron, use npm run lite from the prompt instead of run bundle. After that you need to generate a modern invite:
 
 ```
 sbot invite.create --modern
@@ -56,32 +50,8 @@ sbot server --allowPrivate
 ```
 
 Lastly open build/index.html in a browser and append the invite
-created above using: index.html#ws://localhost:8989....
-
-## how to add a feature
-
-To add a new message type, add add a js to `./modules/` that
-exports a function named `message_content` (it should return an html element)
-To add a new tab, export a function named `screen_view` (returns an html element)
-
-To add a new detail, that appears above a message,
-export a function named `message_meta`.
-
-see the code for more examples.
-
-## module graph
-
-patchbay uses [depject](http://github.com/dominictarr/depject) to manage it's modules.
-here is a graph of the current connections between them. (round shows module,
-square shows api, arrow direction points from user to provider)
-
-[module graph](./graph.svg)
+created above using: `index.html#ws://localhost:8989....`
 
 ## License
 
 MIT
-
-
-
-
-
