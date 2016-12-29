@@ -47,7 +47,7 @@ exports.create = function (api) {
         })
 
 
-        var a = h('a', {href: '#', onclick: function (e) {
+        var a = h('div.skill_object.green', {href: '#', onclick: function (e) {
           e.preventDefault()
           api.message_confirm({
             "type": 'about', "about": self_id,

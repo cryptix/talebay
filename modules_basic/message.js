@@ -94,7 +94,7 @@ exports.create = function (api) {
       ),
       h('div.message_content', el),
       h('div.message_actions.row__meta',
-        h('div.actions', api.message_action(msg),
+        h('div.actions.float', api.message_action(msg),
           h('a', {href: '#' + msg.key}, 'Reply')
         )
       ),

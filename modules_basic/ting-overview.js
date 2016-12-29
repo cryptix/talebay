@@ -84,7 +84,7 @@ exports.create = function (api) {
       var div = h('div.column.scroller',
         {style: {'overflow':'auto'}},
         h('div.scroller__wrapper__overview',
-          h('div.column.scroller__content'),
+          h('div.column.scroller__content__overview'),
             h('div.profile_headline', h('div.padded',"t4l3")),
             
             h('div.profile_headline_short', "about"),

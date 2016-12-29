@@ -1,4 +1,4 @@
-var Tabs = require('hypertabs')
+var Tabs = require('hypertabs-vertical')
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var u = require('../util')
@@ -75,7 +75,7 @@ exports.create = function (api) {
     var id= require('../keys').id
     
     if(!saved || saved.length < 4)
-      saved = ['/t4l3', id, '/inquiries', '/new_inquiry', '/collaborators',  '/public', '/secret', '/notifications']
+      saved = ['/t4l3', id, '/inquiries', '/new_inquiry', '/collaborators',  '/public', '/notifications']
 
     saved.forEach(function (path) {
       var el = api.screen_view(path)

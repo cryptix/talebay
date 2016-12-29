@@ -60,6 +60,11 @@ a:focus {
     margin-bottom: .5em;
 }
 
+.sk0rg{
+    clear: left;
+}
+
+
 #profile_wrapper, #profiles_wrapper{
    /* TODO: hmmm width: 75%;
     height: 170px;*/
@@ -411,7 +416,7 @@ button:hover {
 
 .scroller__wrapper {
   flex: 1;
-
+  min-height: 100vh;
 }
 
 .scroller__wrapper__overview {
@@ -426,7 +431,15 @@ button:hover {
     clear: left;
     margin-left: .16vw;
     margin-right: 15vw;
+
 }
+
+.scroller__content__overview {
+    clear: left;
+    margin-left: .16vw;
+    margin-right: 15vw;
+}
+
 
 
 .scroller__content__filter {
@@ -516,10 +529,11 @@ button:hover {
 }
 
 .message_actions {
-  position: absolute;
-  bottom: 0; right: 0;
+  /*position: absolute;
+  bottom: 0; right: 0;*/
   margin-right: .5ex;
   margin-bottom: .5ex;
+  clear: left;
 }
 
 .title {
@@ -532,6 +546,12 @@ button:hover {
 
 .message > .title > .avatar {
   margin-left: 0;
+
+}
+
+.avatar{
+    margin-right: .5em;
+    float: left;
 }
 
 .message_content {
@@ -546,10 +566,11 @@ button:hover {
 .actions > * {
   padding-left: 5px;
   margin-left: 1px;
+  float: left;
 }
 
 .actions > :not(:last-child) {
-  border-right: 2px solid #eee;
+ /* border-right: 2px solid #eee;*/
   padding-right: 5px;
 }
 
