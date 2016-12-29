@@ -125,17 +125,20 @@ exports.create = function (api) {
       h('div.compose', h('div', ta,
         accessories = h('div.compose__controls',
                         
-          publishBtn//file attachment crashes pub server
-          //hidden until you focus the textarea
+          publishBtn
+          //HIdden until you focus the textarea
           //{style: {display: opts.shrink === false ? '' : 'none'}},
-  //       api.file_input(function (file) {
-  //         files.push(file)
-  //         filesById[file.link] = file
+                        
+                        
+   // atm file upload crashes the server
+   //    api.file_input(function (file) {                                  
+   //      files.push(file)
+   //      filesById[file.link] = file
 
-  //         var embed = file.type.indexOf('image/') === 0 ? '!' : ''
-  //         ta.value += embed + '['+file.name+']('+file.link+')'
-  //         console.log('added:', file)
-  //       })
+   //      var embed = file.type.indexOf('image/') === 0 ? '!' : ''
+   //      ta.value += embed + '['+file.name+']('+file.link+')'
+   //      console.log('added:', file)
+   //    })
                        )
         )
       )

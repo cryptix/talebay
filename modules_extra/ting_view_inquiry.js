@@ -83,7 +83,7 @@ exports.create = function (api) {
       var content = h('div.scroller__content__filter#fetchMe')
       var div = h('div.column.scroller',
         {style: {'overflow': 'auto'}},
-        h('div', h('div.profile_headline', 'skill filter:'), skillSwitchers),
+        h('div', h('div.profile_headline', 'filter by own skills:'), skillSwitchers),
                   
         h('div.scroller__wrapper', content)
       )
