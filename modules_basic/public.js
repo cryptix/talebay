@@ -28,7 +28,7 @@ exports.create = function (api) {
     screen_view: function (path, sbot) {
       if(path === '/public') {
 
-        var content = h('div.column.scroller__content')
+        var content = h('div.column.scroller__content', {style: {'overflow':'auto'}})
         var div = h('div.column.scroller',
           {style: {'overflow':'auto'}},
           h('div.scroller__wrapper',

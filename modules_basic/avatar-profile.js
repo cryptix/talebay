@@ -91,7 +91,7 @@ exports.create = function (api) {
       })
       function add (ary, el) {
         ary.forEach(function (id) { el.appendChild(api.avatar_link(id, api.avatar_name(id))) })
-       // ary.forEach(function (id) { el.appendChild(h('span', ' ')) })
+        ary.forEach(function (id) { el.appendChild(h('div.blank', ' ')) })
       }
 //var name = api.avatar_name(id)
       add(_a, follows_el)

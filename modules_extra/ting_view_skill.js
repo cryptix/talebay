@@ -29,7 +29,7 @@ exports.create = function (api) {
           h('div.scroller__wrapper',
             h('strong', {style: {'color':'red'}}, "Please check in the list below if the skill you  want to adopt is already present. Please don't create duplicates! The server is running slow at the moment, please give the list some time to load."),
             h('div.profile_headline', 'create new skill'),
-            sk0rgName_el=h('input', {placeholder: "sk0rg name"}),
+            sk0rgName_el=h('input', {placeholder: "skill name"}),
             
               h('div.profile_headline_short', 'description'),
             h('div.compose_wrapper',
