@@ -593,7 +593,7 @@ button:hover {
 
 .actions{
     margin-top: 2vh;
-    border-top: 2px solid black;
+    border-top: 2px solid #ccc;
     margin-left: .3em;
     width: 42vw;
 }
@@ -729,6 +729,7 @@ input[type="file" i]{
 .profile {
   padding-top: .5ex;
   overflow: auto;
+ 
 }
 
 .profile input {
@@ -781,6 +782,14 @@ input[type="file" i]{
 
 .profile_headline.inserts{
 
+}
+
+.headline_message{
+    border-top: 2px solid black;
+}
+
+.headline_content{
+    border-color: #ccc;
 }
 
 .profile__relationships{

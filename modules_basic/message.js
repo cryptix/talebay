@@ -89,7 +89,7 @@ exports.create = function (api) {
 
     var msg = h('div.message',
       h('div.title.row__meta',
-        h('div.avatar', api.avatar(msg.value.author, 'thumbnail')),
+        h('div.avatar.headline_message', api.avatar(msg.value.author, 'thumbnail')),
         h('div.message_meta.row__meta', api.message_meta(msg))
       ),
       h('div.message_content', el),
