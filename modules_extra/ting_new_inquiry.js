@@ -36,8 +36,8 @@ exports.create = function (api) {
         api.ting_allskills(),
         pull.filter(function(obj) { return obj.value.content.name != "" }),
         pullSort(function(a, b){
-          var a = a.value.content.name
-          var b = b.value.content.name
+          var a = a.value.content.name.toLowerCase()
+          var b = b.value.content.name.toLowerCase()
           if(a < b) return -1;
           if(a > b) return 1;
           return 0;
