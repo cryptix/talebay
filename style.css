@@ -64,6 +64,15 @@ a:focus {
     clear: left;
 }
 
+.reply{
+    width: 100%;
+    height: 100%;
+}
+
+.backlinks{
+    clear: left;
+
+}
 
 #profile_wrapper, #profiles_wrapper{
    /* TODO: hmmm width: 75%;
@@ -199,6 +208,22 @@ a:focus {
     margin-left: .16vw;
     clear: left;
     border-color: green;
+}
+
+.orange{
+    background: white;
+    color: black;
+    margin-left: .16vw;
+    width: initial;
+    border-color: orange;
+}
+
+.black{
+    background: white;
+    color: black;
+    margin-left: .16vw;
+    width: initial;
+    border-color: black;
 }
 
 .connections_image{
@@ -522,11 +547,14 @@ button:hover {
 
 .message_meta {
   margin-left: auto;
+  border-top: 2px solid black;
 }
 
 .message_meta > * {
  /* margin-left: .5ex;*/
 }
+
+.
 
 .message_actions {
   /*position: absolute;
@@ -563,8 +591,17 @@ button:hover {
     float: right;
 }
 
+.actions{
+    margin-top: 2vh;
+    border-top: 2px solid black;
+    margin-left: .3em;
+    width: 42vw;
+}
+
+
 .actions > * {
   padding-left: 5px;
+  padding-right: 5px;
   margin-left: 1px;
   float: left;
 }
@@ -609,7 +646,8 @@ button:hover {
 .inquiry_skills{
     width: 100%;
     padding-bottom: .25em;
-    border-bottom: 2px solid grey;
+    
+
 }
 
     .message {

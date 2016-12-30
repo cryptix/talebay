@@ -68,7 +68,7 @@ exports.create = function (api) {
 
     var backlinks = h('div.backlinks')
     if(links.length)
-      backlinks.appendChild(h('label', 'backlinks:', 
+      backlinks.appendChild(h('span', 'backlinks:', 
         h('div', links.map(function (key) {
           return api.message_link(key)
         }))
@@ -93,9 +93,11 @@ exports.create = function (api) {
         h('div.message_meta.row__meta', api.message_meta(msg))
       ),
       h('div.message_content', el),
-      h('div.message_actions.row__meta',
+      h('div.message_actions.row__meta',   
         h('div.actions.float', api.message_action(msg),
-          h('a', {href: '#' + msg.key}, 'Reply')
+            h('div.skill_object.orange', 
+              h('a.reply', {href: '#' + msg.key}, 'Reply')
+             )
         )
       ),
       backlinks,

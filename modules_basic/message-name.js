@@ -16,11 +16,11 @@ exports.create = function (api) {
         return cb(null, id.substring(0, 10)+'...(missing)')
       if(value.content.type === 'post' && 'string' === typeof value.content.text)
         return cb(null, title(value.content.text))
-      else if('string' === typeof value.content.text)
-        return cb(null, value.content.type + ':'+title(value.content.text))
-      else
-        return cb(null, id.substring(0, 10)+'...')
+ //    else if('string' === typeof value.content.text)
+ //      return cb(null, value.content.type + ':'+title(value.content.text))
+ //    else
+ //      return cb(null, id.substring(0, 10)+'...')
     })
-  }
+  }//
 }
 
