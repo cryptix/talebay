@@ -10,8 +10,10 @@ module.exports = {
       var remote = require('electron').remote
       remote.getCurrentWindow().setSize(1000, 600)
        document.title = "t4l3";
+       document.head.appendChild(h('meta', {name:'viewport'}, {content: 'width=device-width, initial-scale=1.0'}));
     }else{
         document.title = "t4l3";
+        document.head.appendChild(h('meta', {name:'viewport'}, {content: 'width=device-width, initial-scale=1.0'}));
     }
       
     return function () {

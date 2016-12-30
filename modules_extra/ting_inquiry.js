@@ -146,7 +146,7 @@ exports.create = function (api) {
           mdDescr,
           h('strong','Hat: ', c.hat ? api.avatar_link(c.hat, api.avatar_name(c.hat)) : lateHat),
           h('br'),
-          h('div.profile_headline_short', 'skills needed:'),
+          h('div.profile_headline_short.headline_content', 'skills needed:'),
           positions_el
         )
           /* TODO for v1.5: missing picker and queries..
