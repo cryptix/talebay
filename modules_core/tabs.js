@@ -1,4 +1,4 @@
-var Tabs = require('hypertabs')
+var Tabs = require('hypertabs-vertical')
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var u = require('../util')
