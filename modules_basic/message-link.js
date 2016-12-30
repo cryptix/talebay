@@ -6,7 +6,8 @@ var ref = require('ssb-ref')
 //var message_name = first(exports.message_name = [])
 
 exports.needs = {
-  message_name: 'first'
+  message_name: 'first',
+  avatar_name: 'first'
 }
 
 exports.gives = 'message_link'
@@ -18,7 +19,7 @@ exports.create = function (api) {
     if('string' !== typeof id)
       throw new Error('link must be to message id')
 
-    var link = h('a', {href: '#'+id}, id.substring(0, 10)+'...')
+    var link = h('a', {href: '#'+id}, ' ')
 
     if(ref.isMsg(id))
       api.message_name(id, function (err, name) {

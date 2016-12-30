@@ -67,7 +67,7 @@ exports.create = function (api) {
 
   exports.message_action = function (msg, sbot) {
     if(msg.value.content.type !== 'vote')
-      return h('a.dig', {href: '#', onclick: function () {
+      return h('div.skill_object.dig.black', {href: '#', onclick: function () {
         var dig = {
           type: 'vote',
           vote: { link: msg.key, value: 1, expression: 'Dig' }
