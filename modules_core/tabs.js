@@ -15,10 +15,10 @@ function ancestor (el) {
 
 exports.needs = {
   screen_view: 'first',
-  search_box: 'first', 
+  search_box: 'first',
   menu: 'first',
   avatar_name: 'first'
-  
+
 }
 
 exports.gives = 'screen_view'
@@ -34,9 +34,9 @@ exports.create = function (api) {
       })
       if(search)
         if(ids.length > 1)
-          search.value = 'split('+ids.join(',')+')'
-        else
-          search.value = ids[0]
+        search.value = 'split('+ids.join(',')+')'
+      else
+        search.value = ids[0]
     }
 
     var search
@@ -54,26 +54,26 @@ exports.create = function (api) {
         if(!el.title) el.title = path
         el.scroll = keyscroll(el.querySelector('.scroller__content'))
         tabs.add(el, change)
-  //      localStorage.openTabs = JSON.stringify(tabs.tabs)
+        //      localStorage.openTabs = JSON.stringify(tabs.tabs)
         return change
       }
     })
 
     //reposition hypertabs menu to inside a container...
     tabs.insertBefore(h('div.header.goLeft',
-        
-        h('div.header__tabs', tabs.firstChild), //tabs
-        h('div.header__search.end', h('div', search), api.menu())
+
+      h('div.header__tabs', tabs.firstChild), //tabs
+      h('div.header__search.end', h('div', search), api.menu())
     ), tabs.firstChild)
-  //  tabs.insertBefore(searcabs.firstChild.nextSibling)
+    //  tabs.insertBefore(searcabs.firstChild.nextSibling)
 
     var saved = []
-  //  try { saved = JSON.parse(localStorage.openTabs) }
-  //  catch (_) { }
-    
-    
+    //  try { saved = JSON.parse(localStorage.openTabs) }
+    //  catch (_) { }
+
+
     var id= require('../keys').id
-    
+
     if(!saved || saved.length < 4)
       saved = ['/t4l3', id, '/inquiries', '/new_inquiry', '/collaborators',  '/public', '/notifications']
 
@@ -112,7 +112,7 @@ exports.create = function (api) {
         el.id = el.id || path
         el.scroll = keyscroll(el.querySelector('.scroller__content'))
         tabs.add(el, !ev.ctrlKey, !!ev.shiftKey)
-  //      localStorage.openTabs = JSON.stringify(tabs.tabs)
+        //      localStorage.openTabs = JSON.stringify(tabs.tabs)
       }
 
       return false
@@ -123,19 +123,19 @@ exports.create = function (api) {
         return
       switch(ev.keyCode) {
 
-        // scroll through tabs
+          // scroll through tabs
         case 72: // h
           return tabs.selectRelative(-1)
         case 76: // l
           return tabs.selectRelative(1)
 
-        // scroll through messages
+          // scroll through messages
         case 74: // j
           return tabs.get(tabs.selected[0]).scroll(1)
         case 75: // k
           return tabs.get(tabs.selected[0]).scroll(-1)
 
-        // close a tab
+          // close a tab
         case 88: // x
           if (tabs.selected) {
             var sel = tabs.selected
@@ -145,7 +145,7 @@ exports.create = function (api) {
           }
           return
 
-        // activate the search field
+          // activate the search field
         case 191: // /
           if (ev.shiftKey)
             search.activate('?', ev)
@@ -153,19 +153,19 @@ exports.create = function (api) {
             search.activate('/', ev)
           return
 
-        // navigate to a feed
+          // navigate to a feed
         case 50: // 2
           if (ev.shiftKey)
             search.activate('@', ev)
           return
 
-        // navigate to a channel
+          // navigate to a channel
         case 51: // 3
           if (ev.shiftKey)
             search.activate('#', ev)
           return
 
-        // navigate to a message
+          // navigate to a message
         case 53: // 5
           if (ev.shiftKey)
             search.activate('%', ev)
@@ -179,8 +179,8 @@ exports.create = function (api) {
       id: 'errors',
       style: {'overflow':'auto'}
     }, h('div.scroller__wrapper',
-        errorsContent
-      )
+      errorsContent
+    )
     )
 
     // remove loader error handler
@@ -210,9 +210,9 @@ exports.create = function (api) {
         var Menu = remote.Menu
         var MenuItem = remote.MenuItem
         var menu = new Menu()
-              
-        
-        
+
+
+
         menu.append(new MenuItem({
           label: 'Inspect Element',
           click: function () {
