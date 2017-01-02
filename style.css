@@ -419,8 +419,8 @@ button:hover {
 
 .menu {
   position: absolute;
-  top: .5em;
-  right: .5em;
+  bottom: .5em;
+  right: .1em;
   padding-top: .5em;
   padding-bottom: .5em;
   padding-right: 1em;
@@ -453,6 +453,7 @@ button:hover {
 
 
 .scroller__content {
+    min-height: 100vh;
     clear: left;
     margin-left: .16vw;
     margin-right: 15vw;
@@ -503,6 +504,7 @@ button:hover {
     clear: left;
   position: relative;
   flex-basis: 0;
+  flex: 1;
   margin-top: .25em; 
   margin-bottom: .25em;
   padding: .2em;
@@ -524,6 +526,7 @@ button:hover {
   border: none;
   opacity: 0.5;
   background: inherit;
+
 }
 
 .message_content div > span {
