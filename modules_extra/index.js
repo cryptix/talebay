@@ -21,6 +21,7 @@ module.exports = {
   'ting_inquiry.js': require('./ting_inquiry.js'),
   'ting_new_inquiry.js': require('./ting_new_inquiry.js'),
   'ting_view_inquiry.js': require('./ting_view_inquiry.js'),
+  'ting_inq_edit.js': require('./ting_inq_edit.js'),
 
   'ting_skill.js': require('./ting_skill.js'),
   'ting_view_skill.js': require('./ting_view_skill.js'),
