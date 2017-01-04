@@ -25,13 +25,13 @@ exports.gives = 'message_compose'
 
 function id (e) { return e }
 
-/*
+  /*
   opts can take
 
     placeholder: string. placeholder text, defaults to "Write a message"
     prepublish: function. called before publishing a message.
     shrink: boolean. set to false, to make composer not shrink (or hide controls) when unfocused.
-*/
+    */
 
 exports.create = function (api) {
 
@@ -39,7 +39,7 @@ exports.create = function (api) {
     if('function' === typeof cb) {
       if('function' === typeof opts)
         opts = {prepublish: opts}
-      }
+    }
 
     if(!opts) opts = {}
     opts.prepublish = opts.prepublish || id
@@ -54,26 +54,26 @@ exports.create = function (api) {
 
     if (opts.value) ta.value = opts.value
 
-//    if(opts.shrink !== false) {//
-//      var blur
-//      ta.addEventListener('focus', function () {
-//        clearTimeout(blur)
-//        if(!ta.value) {
-//          ta.style.height = '200px'
-//        }
-//        accessories.style.display = 'block'
-//      })
-//      ta.addEventListener('blur', function () {
-//        //don't shrink right away, so there is time
-//        //to click the publish button.
-//        clearTimeout(blur)
-//        blur = setTimeout(function () {
-//          if(ta.value) return
-//          ta.style.height = '50px'
-//          accessories.style.display = 'none'
-//        }, 200)
-//      })
-//    }
+    //    if(opts.shrink !== false) {//
+    //      var blur
+    //      ta.addEventListener('focus', function () {
+    //        clearTimeout(blur)
+    //        if(!ta.value) {
+    //          ta.style.height = '200px'
+    //        }
+    //        accessories.style.display = 'block'
+    //      })
+    //      ta.addEventListener('blur', function () {
+    //        //don't shrink right away, so there is time
+    //        //to click the publish button.
+    //        clearTimeout(blur)
+    //        blur = setTimeout(function () {
+    //          if(ta.value) return
+    //          ta.style.height = '50px'
+    //          accessories.style.display = 'none'
+    //        }, 200)
+    //      })
+    //    }
 
     ta.addEventListener('keydown', function (ev) {
       if(ev.keyCode === 13 && ev.ctrlKey) publish()
@@ -124,33 +124,32 @@ exports.create = function (api) {
     var composer =
       h('div.compose', h('div', ta,
         accessories = h('div.compose__controls',
-                        
-          publishBtn
+
+          publishBtn,
           //HIdden until you focus the textarea
           //{style: {display: opts.shrink === false ? '' : 'none'}},
-                        
-                        
-   // atm file upload crashes the server
-   //    api.file_input(function (file) {                                  
-   //      files.push(file)
-   //      filesById[file.link] = file
 
-   //      var embed = file.type.indexOf('image/') === 0 ? '!' : ''
-   //      ta.value += embed + '['+file.name+']('+file.link+')'
-   //      console.log('added:', file)
-   //    })
-                       )
+
+          api.file_input(function (file) {
+            files.push(file)
+            filesById[file.link] = file
+
+            var embed = file.type.indexOf('image/') === 0 ? '!' : ''
+            ta.value += embed + '['+file.name+']('+file.link+')'
+            console.log('added:', file)
+          })
         )
+      )
       )
 
     suggest(ta, function (name, cb) {
       cont.para(api.suggest_mentions(name))
-        (function (err, ary) {
-          cb(null, ary.reduce(function (a, b) {
-            if(!b) return a
-            return a.concat(b)
-          }, []))
-        })
+      (function (err, ary) {
+        cb(null, ary.reduce(function (a, b) {
+          if(!b) return a
+          return a.concat(b)
+        }, []))
+      })
     }, {})
 
     return composer
