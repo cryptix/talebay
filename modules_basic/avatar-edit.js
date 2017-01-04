@@ -52,8 +52,10 @@ exports.gives = 'avatar_edit'
 exports.create = function (api) {
   return function (id) {
 
+    /*
     var img = visualize(new Buffer(id.substring(1), 'base64'), 256)
     img.classList.add('avatar--large')
+    */
 
     var lb = hyperlightbox()
     var name_input = h('input.rename', {placeholder: 'rename'})
@@ -64,8 +66,10 @@ exports.create = function (api) {
       if (err) return console.error(err)
       //don't show user has already selected an avatar.
       if(selected) return
+        /*
       if(ref.isBlob(avatar.image))
         img.src = api.blob_url(avatar.image)
+        */
     })
 
     var also_pictured = h('div.profile__alsopicturedas.wrap')
@@ -82,51 +86,52 @@ exports.create = function (api) {
       pull.drain(function (image) {
         also_pictured.appendChild(
           h('a', {href:'#', onclick: function (ev) {
-              ev.stopPropagation()
-              ev.preventDefault()
-              selected = image
-              img.src = api.blob_url(image.link || image)
-            }},
-            h('img.avatar--thumbnail', {src: api.blob_url(image)})
+            ev.stopPropagation()
+            ev.preventDefault()
+            selected = image
+            //img.src = api.blob_url(image.link || image)
+          }}//,
+            //h('img.avatar--thumbnail', {src: api.blob_url(image)})
           )
         )
       })
     )
 
     return h('div.profile#profile1', lb,
-      img,
- //hyperfile crashes public server     
-//      hyperfile.asDataURL(function (data) {//
-//          var el = crop(data, function (err, data) {
-//            if(data) {
-//              img.src = data
-//              var _data = dataurl.parse(data)
-//              pull(
-//                pull.once(_data.data),
-//                api.sbot_blobs_add(function (err, hash) {
-//                  //TODO. Alerts are EVIL.
-//                  //I use them only in a moment of weakness.
-//
-//                  if(err) return alert(err.stack)
-//                  selected = {
-//                    link: hash,
-//                    size: _data.data.length,
-//                    type: _data.mimetype,
-//                    width: 512,
-//                    height: 512
-//                  }
-//
-//                })
-//              )
-//            }
-//            lb.close()
-//          })
-//          lb.show(el)
-//        }),
+      //img,
+      /* avatar images disabled for now
+      hyperfile.asDataURL(function (data) {//
+        var el = crop(data, function (err, data) {
+          if(data) {
+            img.src = data
+            var _data = dataurl.parse(data)
+            pull(
+              pull.once(_data.data),
+              api.sbot_blobs_add(function (err, hash) {
+      //TODO. Alerts are EVIL.
+      //I use them only in a moment of weakness.
+
+                if(err) return alert(err.stack)
+                selected = {
+                  link: hash,
+                  size: _data.data.length,
+                  type: _data.mimetype,
+                  width: 512,
+                  height: 512
+                }
+
+              })
+            )
+          }
+          lb.close()
+        })
+        lb.show(el)
+      }),
+      */
       h('div.column.profile__info',
         h('strong.username', name),
         name_input,
-        
+
         h('button.update_profile', 'update', {onclick: function () {
           if(name_input.value)
             name.textContent = name_input.value

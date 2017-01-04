@@ -9,8 +9,8 @@ exports.needs = {
 
 exports.gives = {
   avatar: true,
-  avatar_image_name_link: true,
-  avatar_image_link: true
+  //avatar_image_name_link: true
+  //avatar_image_link: true
 }
 
 exports.create = function (api) {
@@ -22,7 +22,7 @@ exports.create = function (api) {
 
   exports.avatar_image_name_link = function (author, classes) {
     return api.avatar_link(author, [
-      api.avatar_image(author, classes),
+      //api.avatar_image(author, classes),
       api.avatar_name(author)
     ])
   }

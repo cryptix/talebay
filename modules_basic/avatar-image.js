@@ -52,15 +52,15 @@ exports.create = function (api) {
                 type: "about",
                 about: {$prefix: "@"},
                 image: {link: {$prefix: "&"}}
-            }}
-          }},
-          {
-            $map: {
-              id: ["value", "content", "about"],
-              image: ["value", "content", "image", "link"],
-              by: ["value", "author"],
-              ts: 'timestamp'
-          }}],
+              }}
+            }},
+            {
+              $map: {
+                id: ["value", "content", "about"],
+                image: ["value", "content", "image", "link"],
+                by: ["value", "author"],
+                ts: 'timestamp'
+              }}],
           live: true
         }),
         pull.drain(function (a) {
@@ -75,11 +75,11 @@ exports.create = function (api) {
           //you picked.
           if(
             //if there is no avatar
-              (!avatars[a.id]) ||
-            //if i chose this avatar
+            (!avatars[a.id]) ||
+              //if i chose this avatar
               (a.by == self_id) ||
-            //they chose their own avatar,
-            //and current avatar was not chosen by me
+              //they chose their own avatar,
+              //and current avatar was not chosen by me
               (a.by === a.id && avatars[a.id].by != self_id)
           )
             avatars[a.id] = a
