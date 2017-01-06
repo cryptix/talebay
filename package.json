@@ -1,7 +1,7 @@
 {
   "name": "talebay",
   "description": "a patchbay clone that should evolve into a idea collaboration network thingy",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "homepage": "https://t4l3.net",
   "repository": {
     "type": "git",
