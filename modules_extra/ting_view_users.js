@@ -18,11 +18,17 @@ exports.needs = {
 }
 
 exports.gives = {
-  menu_items: true, screen_view: true
+  builtin_tabs: true,
+  menu_items: true,
+  screen_view: true
 }
 
 exports.create = function (api) {
   return {
+    builtin_tabs: function () {
+      return ['/inquiries']
+    },
+
     menu_items: function () {
       return h('a', {href: '#/collaborators'}, '/collaborators')
     },

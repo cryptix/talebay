@@ -1,15 +1,5 @@
-
 var h = require('hyperscript')
 var pull = require('pull-stream')
-
-//var plugs = require('../plugs')
-//
-//var avatar_edit = plugs.first(exports.avatar_edit = [])
-//var invite_parse = plugs.first(exports.invite_parse = [])
-//var invite_accept = plugs.first(exports.invite_accept = [])
-//var sbot_progress = plugs.first(exports.sbot_progress = [])
-//var sbot_query = plugs.first(exports.sbot_query = [])
-//var avatar = plugs.first(exports.avatar = [])
 
 exports.needs = {
   avatar: 'first',
@@ -21,8 +11,6 @@ exports.needs = {
 }
 
 exports.gives = {
-  menu_items: true,
-  builtin_tabs: true,
   screen_view: true
 }
 

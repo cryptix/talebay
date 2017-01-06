@@ -27,7 +27,6 @@ exports.create = function (api) {
       return [tabName]
     },
 
-
     screen_view: function (path) {
       if(path !== tabName) return
 
@@ -92,9 +91,6 @@ exports.create = function (api) {
 
         h('div.profile_headline_short.float.clear', 'select skill positions'),
         skillFields
-
-
-
       ))
       return div
     }

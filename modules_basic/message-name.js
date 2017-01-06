@@ -14,6 +14,7 @@ exports.create = function (api) {
     api.sbot_get(id, function (err, value) {
       if(err && err.name == 'NotFoundError')
         return cb(null, id.substring(0, 10)+'...(missing)')
+      if(err) return cb(err, null)
       if((value.content.type === 'post') && 'string' === typeof value.content.text)
         return cb(null, title(value.content.text))
       else if('string' === typeof value.content.text)

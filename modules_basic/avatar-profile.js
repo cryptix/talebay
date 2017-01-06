@@ -5,7 +5,6 @@ var cat = require('pull-cat')
 var combobox = require('hypercombo')
 
 exports.needs = {
-  avatar_image_link: 'first',
   avatar_action: 'map',
   avatar_description: 'first',
   avatar_edit: 'first',
@@ -26,9 +25,6 @@ exports.gives = 'avatar_profile'
 
 exports.create = function (api) {
 
-  function image_link (id) {
-    return api.avatar_image_link(id, 'thumbnail')
-  }
 
 
   return function (id) {

@@ -11,7 +11,6 @@ exports.needs = {
   message_render: 'first',
   message_compose: 'first',
   avatar_name: 'first',
-  avatar_image_link: 'first',
   avatar_action: 'map',
   avatar_description: 'first',
   avatar_edit: 'first',

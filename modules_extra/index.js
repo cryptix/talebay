@@ -16,7 +16,6 @@ module.exports = {
   'raw.js': require('./raw.js'),
   'search.js': require('./search'),
   'split.js': require('./split.js'),
-  'ting_view_inserts.js': require('./ting_view_inserts.js'),
 
   'ting_inquiry.js': require('./ting_inquiry.js'),
   'ting_new_inquiry.js': require('./ting_new_inquiry.js'),
@@ -25,8 +24,6 @@ module.exports = {
 
   'ting_skill.js': require('./ting_skill.js'),
   'ting_view_skill.js': require('./ting_view_skill.js'),
-  'ting_view_users.js': require('./ting_view_users.js'), 
-  'ting_adopt.js': require('./ting_adopt.js'),
-
-//  'versions.js': require('./versions.js')
+  'ting_view_users.js': require('./ting_view_users.js'),
+  'ting_adopt.js': require('./ting_adopt.js')
 }

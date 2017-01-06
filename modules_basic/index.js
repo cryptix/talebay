@@ -18,7 +18,6 @@ module.exports = {
   'message-name.js': require('./message-name.js'),
   'message.js': require('./message.js'),
   'names.js': require('./names.js'),
-  'ting-overview.js': require('./ting-overview.js'),
   'post.js': require('./post.js'),
   'private.js': require('./private.js'),
   'pub.js': require('./pub.js'),
@@ -29,5 +28,6 @@ module.exports = {
   'suggest-mentions.js': require('./suggest-mentions.js'),
   'thread.js': require('./thread.js'),
   'timestamp.js': require('./timestamp.js'),
+  'ting-overview.js': require('./ting-overview.js'),
   'ting-quries.js': require('./ting-quries.js')
 }

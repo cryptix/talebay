@@ -15,7 +15,7 @@ exports.needs = {
   message_unbox: 'first',
   sbot_log: 'first',
   sbot_whoami: 'first',
-  avatar_image_link: 'first',
+  avatar_link: 'first',
   emoji_url: 'first'
 }
 
@@ -100,7 +100,7 @@ exports.create = function (api) {
     message_meta: function (msg) {
       if(msg.value.content.recps || msg.value.private)
         return h('span.row', 'PRIVATE', map(msg.value.content.recps, function (id) {
-          return api.avatar_image_link('string' == typeof id ? id : id.link, 'thumbnail')
+          return api.avatar_link('string' == typeof id ? id : id.link)
         }))
     },
 
